@@ -1,6 +1,6 @@
-package com.example.repository;
+package com.cms.repository;
 
-import com.example.model.Grade;
+import com.cms.model.Grade;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
