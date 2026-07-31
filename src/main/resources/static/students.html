@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="vi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>E-Learning · Students</title>
+<title>E-Learning · Danh sách học viên</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/theme.css">
@@ -16,15 +16,15 @@
     <div class="content">
       <section class="page-head fade-up">
         <div>
-          <span class="eyebrow">Teacher</span>
-          <h1>Học viên</h1>
-          <p>Students enrolled across the courses you teach.</p>
+          <span class="eyebrow">Giảng viên</span>
+          <h1>Danh sách học viên</h1>
+          <p>Học viên đã đăng ký các khóa học do bạn giảng dạy.</p>
         </div>
       </section>
 
       <div class="table-wrap">
         <table class="data-table">
-          <thead><tr><th>Student</th><th>Course</th><th>Progress</th><th>Enrolled</th></tr></thead>
+          <thead><tr><th>Học viên</th><th>Khóa học</th><th>Tiến độ</th><th>Ngày đăng ký</th></tr></thead>
           <tbody id="studentBody"></tbody>
         </table>
       </div>
@@ -36,10 +36,10 @@
 <script src="js/shell.js"></script>
 <script>
 const SEED_STUDENTS = [
-  { name:'Alice K.', course:'UX/UI Design Foundations', progress:72, enrolled:'02 Jun 2026' },
-  { name:'Priya R.', course:'Intro to Game Theory', progress:34, enrolled:'11 Jun 2026' },
-  { name:'Tom H.', course:'Business Development Fundamentals', progress:100, enrolled:'20 May 2026' },
-  { name:'Marco D.', course:'UX/UI Design Foundations', progress:12, enrolled:'19 Jul 2026' },
+  { name:'Alice K.', course:'Nền tảng Thiết kế UX/UI', progress:72, enrolled:'02/06/2026' },
+  { name:'Priya R.', course:'Nhập môn Lý thuyết Trò chơi', progress:34, enrolled:'11/06/2026' },
+  { name:'Tom H.', course:'Nền tảng Phát triển Doanh nghiệp', progress:100, enrolled:'20/05/2026' },
+  { name:'Marco D.', course:'Nền tảng Thiết kế UX/UI', progress:12, enrolled:'19/07/2026' },
 ];
 document.getElementById('studentBody').innerHTML = SEED_STUDENTS.map(s => `
   <tr>

@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="vi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>E-Learning · Course</title>
+<title>E-Learning · Khóa học</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/theme.css">
@@ -43,7 +43,7 @@ function lessonRow(l, i){
       <div>
         <div style="color:#fff;font-weight:600;font-size:.88rem;">${l.title}</div>
       </div>
-      <div class="dur">${l.duration || 10} min</div>
+      <div class="dur">${l.duration || 10} phút</div>
     </div>`;
 }
 
@@ -57,29 +57,29 @@ async function init(){
     <div class="hero-media"><img src="${img}" alt=""></div>
     <div class="detail-grid">
       <div>
-        <span class="eyebrow">Course</span>
+        <span class="eyebrow">Khóa học</span>
         <h1>${course.title}</h1>
         <div style="display:flex; align-items:center; gap:14px; margin-bottom:14px;">
           ${starsHTML(course.rating || 4)}
-          <span style="color:var(--text-low); font-size:.84rem;">${course.instructorName || 'Instructor'}</span>
+          <span style="color:var(--text-low); font-size:.84rem;">${course.instructorName || 'Giảng viên'}</span>
         </div>
-        <p style="max-width:640px;">${course.description || 'No description provided yet for this course.'}</p>
+        <p style="max-width:640px;">${course.description || 'Chưa có mô tả cho khóa học này.'}</p>
 
         <div class="section" style="margin-left:0;">
-          <div class="section__head"><h2>Lessons</h2></div>
+          <div class="section__head"><h2>Bài học</h2></div>
           <div id="lessonList">${lessons.map(lessonRow).join('')}</div>
         </div>
       </div>
 
       <aside class="panel">
         <div class="course-card__price" style="font-size:1.6rem; margin-bottom:4px;">${money(course.price)}</div>
-        <p style="font-size:.78rem; margin-bottom:16px;">One-time payment · lifetime access</p>
+        <p style="font-size:.78rem; margin-bottom:16px;">Thanh toán 1 lần · Truy cập trọn đời</p>
         <div id="enrollSlot"></div>
-        <a class="btn btn-ghost btn-block" style="margin-top:8px;" href="courses.html">Back to catalog</a>
+        <a class="btn btn-ghost btn-block" style="margin-top:8px;" href="courses.html">Quay lại danh mục</a>
         <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--border-subtle); font-size:.82rem; color:var(--text-mid);">
-          <div style="display:flex; justify-content:space-between; padding:4px 0;"><span>Lessons</span><span style="color:#fff;">${lessons.length}</span></div>
-          <div style="display:flex; justify-content:space-between; padding:4px 0;"><span>Duration</span><span style="color:#fff;">${course.duration || 6}h</span></div>
-          <div style="display:flex; justify-content:space-between; padding:4px 0;"><span>Level</span><span style="color:#fff;">All levels</span></div>
+          <div style="display:flex; justify-content:space-between; padding:4px 0;"><span>Bài học</span><span style="color:#fff;">${lessons.length}</span></div>
+          <div style="display:flex; justify-content:space-between; padding:4px 0;"><span>Thời lượng</span><span style="color:#fff;">${course.duration || 6} giờ</span></div>
+          <div style="display:flex; justify-content:space-between; padding:4px 0;"><span>Trình độ</span><span style="color:#fff;">Mọi trình độ</span></div>
         </div>
       </aside>
     </div>
@@ -88,22 +88,22 @@ async function init(){
   const role = Auth.isLoggedIn() ? Auth.getRole() : null;
   const slot = document.getElementById('enrollSlot');
   if (!Auth.isLoggedIn() || role === 'STUDENT'){
-    slot.innerHTML = `<button class="btn btn-primary btn-block" id="enrollBtn">Enroll now</button>`;
+    slot.innerHTML = `<button class="btn btn-primary btn-block" id="enrollBtn">Đăng ký ngay</button>`;
     document.getElementById('enrollBtn').addEventListener('click', async () => {
       if (!Auth.isLoggedIn()){
-        toast('Please log in to enroll.', 'error');
+        toast('Vui lòng đăng nhập để đăng ký.', 'error');
         setTimeout(() => window.location.href = `login.html?next=course-detail.html?id=${course.id}`, 900);
         return;
       }
       try{
         await EnrollmentAPI.enroll(course.id, Auth.getUser()?.id);
-        toast('Enrolled! Find it under My Courses.');
+        toast('Đăng ký thành công! Xem trong Khóa học của tôi.');
       }catch(e){
-        toast('Enrolled (demo mode).');
+        toast('Đã đăng ký (chế độ demo).');
       }
     });
   } else {
-    slot.innerHTML = `<p style="font-size:.8rem; color:var(--text-low);">Only students can enroll in courses.</p>`;
+    slot.innerHTML = `<p style="font-size:.8rem; color:var(--text-low);">Chỉ học viên mới có thể đăng ký khóa học.</p>`;
   }
 }
 init();

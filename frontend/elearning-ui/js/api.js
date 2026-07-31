@@ -29,7 +29,7 @@ const ROLE_HOME = {
   [ROLES.TEACHER]: 'teacher-dashboard.html',
   [ROLES.ADMIN]:   'admin-dashboard.html',
 };
-const ROLE_LABEL = { STUDENT: 'Student', TEACHER: 'Teacher', ADMIN: 'Administrator' };
+const ROLE_LABEL = { STUDENT: 'Học viên', TEACHER: 'Giảng viên', ADMIN: 'Quản trị viên' };
 
 function normalizeRole(raw){
   if (!raw) return null;
@@ -103,7 +103,7 @@ async function apiFetch(path, options = {}){
   if (token) headers['Authorization'] = `Bearer ${token}`;
   const res = await fetch(API_BASE + path, { ...options, headers });
   if (!res.ok){
-    let msg = `Request failed (${res.status})`;
+    let msg = `Yêu cầu thất bại (${res.status})`;
     try{ const body = await res.json(); msg = body.message || msg; }catch(e){}
     throw new Error(msg);
   }
@@ -113,23 +113,23 @@ async function apiFetch(path, options = {}){
 
 /* ---------- DEMO DATA (used only as an offline fallback) ---------- */
 const DEMO_COURSES = [
-  { id:1, title:'Business Development Fundamentals', description:'Learn how to grow a business from zero to a sustainable revenue stream, told through real case studies.', price:23, duration:6, instructorName:'Akila M.', rating:4, badge:'promo', img:'https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=400&auto=format&fit=crop' },
-  { id:2, title:'Floristics: Design & Arrangement', description:'A hands-on introduction to flower arranging, color theory, and seasonal composition.', price:23, duration:4, instructorName:'Akila M.', rating:4, badge:null, img:'https://images.unsplash.com/photo-1490750967868-88aa4486c946?q=80&w=400&auto=format&fit=crop' },
-  { id:3, title:'Famous Composers', description:'A tour through the lives and works of the composers who shaped Western music.', price:23, duration:8, instructorName:'Akila M.', rating:4, badge:'new', img:'https://images.unsplash.com/photo-1465225314224-587cd83d322b?q=80&w=400&auto=format&fit=crop' },
-  { id:4, title:'Communication that Lands', description:'Practical frameworks for clearer writing, better meetings, and difficult conversations.', price:23, duration:5, instructorName:'Akila M.', rating:4, badge:null, img:'https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=400&auto=format&fit=crop' },
-  { id:5, title:'UX/UI Design Foundations', description:'From wireframe to prototype: the core process behind interfaces people enjoy using.', price:23, duration:10, instructorName:'Akila M.', rating:4, badge:'hot', img:'https://images.unsplash.com/photo-1587440871875-191322ee64b0?q=80&w=400&auto=format&fit=crop' },
-  { id:6, title:'Intro to Game Theory', description:'Poker, chess and everyday decisions — the shared logic of strategic thinking.', price:19, duration:6, instructorName:'D. Marlowe', rating:5, badge:null, img:'https://images.unsplash.com/photo-1611996575749-79a3a250f948?q=80&w=400&auto=format&fit=crop' },
+  { id:1, title:'Nền tảng Phát triển Doanh nghiệp', description:'Học cách phát triển doanh nghiệp từ con số 0 đến nguồn doanh thu bền vững qua các bài học thực tế.', price:23, duration:6, instructorName:'Akila M.', rating:4, badge:'promo', img:'https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=400&auto=format&fit=crop' },
+  { id:2, title:'Nghệ thuật Cắm hoa & Thiết kế', description:'Giới thiệu thực hành về cắm hoa, lý thuyết màu sắc và phối hợp bố cục theo mùa.', price:23, duration:4, instructorName:'Akila M.', rating:4, badge:null, img:'https://images.unsplash.com/photo-1490750967868-88aa4486c946?q=80&w=400&auto=format&fit=crop' },
+  { id:3, title:'Các Nhà soạn nhạc Nổi tiếng', description:'Hành trình khám phá cuộc đời và tác phẩm của các nhà soạn nhạc đã hình thành nền âm nhạc phương Tây.', price:23, duration:8, instructorName:'Akila M.', rating:4, badge:'new', img:'https://images.unsplash.com/photo-1465225314224-587cd83d322b?q=80&w=400&auto=format&fit=crop' },
+  { id:4, title:'Kỹ năng Giao tiếp Hiệu quả', description:'Khung phương pháp thực tế giúp viết lách rõ ràng, điều hành cuộc họp tốt hơn và xử lý hội thoại khó khăn.', price:23, duration:5, instructorName:'Akila M.', rating:4, badge:null, img:'https://images.unsplash.com/photo-1521791136064-7986c2920216?q=80&w=400&auto=format&fit=crop' },
+  { id:5, title:'Nền tảng Thiết kế UX/UI', description:'Từ bản vẽ phác thảo đến sản phẩm mẫu: quy trình cốt lõi tạo ra giao diện người dùng yêu thích.', price:23, duration:10, instructorName:'Akila M.', rating:4, badge:'hot', img:'https://images.unsplash.com/photo-1587440871875-191322ee64b0?q=80&w=400&auto=format&fit=crop' },
+  { id:6, title:'Nhập môn Lý thuyết Trò chơi', description:'Poker, cờ vua và quyết định hàng ngày — tư duy chiến lược ứng dụng trong cuộc sống.', price:19, duration:6, instructorName:'D. Marlowe', rating:5, badge:null, img:'https://images.unsplash.com/photo-1611996575749-79a3a250f948?q=80&w=400&auto=format&fit=crop' },
 ];
 
 const DEMO_CATEGORIES = [
-  { name:'Certifications', items:['HACCP','First Aid','Other certifications'] },
-  { name:'Education', items:['Math','Physics','Biology','Chemistry','Geography','Literature'], more:true },
-  { name:'Exams', items:['All exams'] },
-  { name:'Game theory', items:['Poker','Chess','Blackjack','Mahjong'] },
-  { name:'Health', items:['Aerobic exercise','Anaerobic exercise','High intensity interval training','Other health'] },
-  { name:'Hospitality', items:['Food','Beverage','Operations','Other hospitality'] },
-  { name:'Languages', items:['English','Spanish','French','German'] },
-  { name:'Other', items:['Other'] },
+  { name:'Chứng chỉ', items:['HACCP','Sơ cứu','Chứng chỉ khác'] },
+  { name:'Giáo dục', items:['Toán học','Vật lý','Sinh học','Hóa học','Địa lý','Văn học'], more:true },
+  { name:'Kỳ thi', items:['Tất cả kỳ thi'] },
+  { name:'Lý thuyết trò chơi', items:['Poker','Cờ vua','Blackjack','Mạt chược'] },
+  { name:'Sức khỏe', items:['Thể dục nhịp điệu','Tập sức bền','HIIT','Sức khỏe khác'] },
+  { name:'Nhà hàng - Khách sạn', items:['Ẩm thực','Đồ uống','Vận hành','Ngành dịch vụ khác'] },
+  { name:'Ngoại ngữ', items:['Tiếng Anh','Tiếng Tây Ban Nha','Tiếng Pháp','Tiếng Đức'] },
+  { name:'Khác', items:['Khác'] },
 ];
 
 /* ---------- Courses ---------- */
@@ -176,10 +176,10 @@ const LessonAPI = {
     try{ return await apiFetch(`/lessons/course/${courseId}`); }
     catch(e){
       return [
-        { id:1, title:'Welcome & course overview', duration:8 },
-        { id:2, title:'Core concepts', duration:22 },
-        { id:3, title:'Hands-on walkthrough', duration:31 },
-        { id:4, title:'Wrap-up & next steps', duration:12 },
+        { id:1, title:'Chào mừng & Tổng quan khóa học', duration:8 },
+        { id:2, title:'Các khái niệm cốt lõi', duration:22 },
+        { id:3, title:'Hướng dẫn thực hành chi tiết', duration:31 },
+        { id:4, title:'Tổng kết & Các bước tiếp theo', duration:12 },
       ];
     }
   }

@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="vi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>E-Learning · Create account</title>
+<title>E-Learning · Tạo tài khoản</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/theme.css">
@@ -14,21 +14,21 @@
   <div class="auth-visual">
     <div class="sidebar__brand" style="padding:0; color:#fff;"><span class="dot"></span> E-Learning</div>
     <div class="auth-visual__quote">
-      <h2 style="font-size:1.6rem; color:#fff;">Join a platform built around real progress, not just watch time.</h2>
-      <p style="color:rgba(255,255,255,0.75);">Track hours studied, earn certificates, and teach what you know.</p>
+      <h2 style="font-size:1.6rem; color:#fff;">Tham gia nền tảng giúp bạn tiến bộ thực sự, không chỉ dừng lại ở thời gian xem video.</h2>
+      <p style="color:rgba(255,255,255,0.75);">Theo dõi giờ học, nhận chứng chỉ và chia sẻ kiến thức của bạn.</p>
     </div>
-    <p style="color:rgba(255,255,255,0.55); font-size:.78rem;">© 2026 E-Learning. All rights reserved.</p>
+    <p style="color:rgba(255,255,255,0.55); font-size:.78rem;">© 2026 E-Learning. Tất cả quyền được bảo lưu.</p>
   </div>
 
   <div class="auth-form-wrap">
     <div class="auth-card">
-      <span class="eyebrow">Get started</span>
-      <h1>Create your account</h1>
-      <p style="margin-bottom:26px;">Already have one? <a href="login.html" style="color:var(--mint); font-weight:600;">Log in</a></p>
+      <span class="eyebrow">Bắt đầu</span>
+      <h1>Tạo tài khoản của bạn</h1>
+      <p style="margin-bottom:26px;">Đã có tài khoản? <a href="login.html" style="color:var(--mint); font-weight:600;">Đăng nhập</a></p>
 
       <form id="registerForm" novalidate>
         <div class="field">
-          <label for="fullName">Full name</label>
+          <label for="fullName">Họ và tên</label>
           <input type="text" id="fullName" name="fullName" autocomplete="name" required>
         </div>
         <div class="field">
@@ -36,22 +36,22 @@
           <input type="email" id="email" name="email" autocomplete="email" required>
         </div>
         <div class="field">
-          <label for="regUsername">Username</label>
+          <label for="regUsername">Tên đăng nhập</label>
           <input type="text" id="regUsername" name="username" autocomplete="username" required>
         </div>
         <div class="field">
-          <label for="regPassword">Password</label>
+          <label for="regPassword">Mật khẩu</label>
           <input type="password" id="regPassword" name="password" autocomplete="new-password" required minlength="6">
-          <div class="field-hint">At least 6 characters.</div>
+          <div class="field-hint">Ít nhất 6 ký tự.</div>
         </div>
         <div class="field">
-          <label for="role">I'm joining as</label>
+          <label for="role">Tôi tham gia với tư cách</label>
           <select id="role" name="role">
-            <option value="STUDENT">Student — take courses</option>
-            <option value="INSTRUCTOR">Instructor — teach courses</option>
+            <option value="STUDENT">Học viên — Tham gia khóa học</option>
+            <option value="INSTRUCTOR">Giảng viên — Giảng dạy khóa học</option>
           </select>
         </div>
-        <button type="submit" class="btn btn-primary btn-block">Create account</button>
+        <button type="submit" class="btn btn-primary btn-block">Tạo tài khoản</button>
       </form>
     </div>
   </div>
@@ -71,7 +71,7 @@ document.getElementById('registerForm').addEventListener('submit', async (e) => 
   };
   try{
     await AuthAPI.register(payload);
-    toast && toast('Account created — please log in.');
+    toast && toast('Đã tạo tài khoản — Vui lòng đăng nhập.');
   }catch(err){ /* demo mode: ignore network errors */ }
   window.location.href = `login.html?role=${encodeURIComponent(role === 'INSTRUCTOR' ? 'TEACHER' : role)}`;
 });

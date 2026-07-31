@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="vi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>E-Learning · Learn something new</title>
+<title>E-Learning · Học tập kiến thức mới</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/theme.css">
@@ -18,19 +18,19 @@
       <section class="page-head fade-up">
         <div>
           <span class="eyebrow">E-Learning</span>
-          <h1>Learn something new, on your schedule</h1>
-          <p>Courses taught by real practitioners — track your progress and earn certificates as you go.</p>
+          <h1>Học kiến thức mới theo lịch trình của bạn</h1>
+          <p>Các khóa học được giảng dạy bởi các chuyên gia thực thụ — theo dõi tiến độ và nhận chứng chỉ trên từng bước đi.</p>
         </div>
         <div style="display:flex; gap:10px;">
-          <a href="courses.html" class="btn btn-ghost">Browse catalog</a>
-          <a href="register.html" class="btn btn-primary">Get started</a>
+          <a href="courses.html" class="btn btn-ghost">Xem danh mục</a>
+          <a href="register.html" class="btn btn-primary">Bắt đầu ngay</a>
         </div>
       </section>
 
       <section class="section" id="promotedSection" style="margin-top:0;">
         <div class="section__head">
-          <h2>Promoted courses</h2>
-          <a href="courses.html">View all →</a>
+          <h2>Khóa học nổi bật</h2>
+          <a href="courses.html">Xem tất cả →</a>
         </div>
         <div class="grid-cards" id="promotedGrid">
           <div class="course-card skeleton" style="height:230px"></div>
@@ -42,7 +42,7 @@
 
       <section class="section" id="categoriesSection">
         <div class="section__head">
-          <h2>Categories</h2>
+          <h2>Danh mục khóa học</h2>
         </div>
         <div class="grid-cards" id="categoryGrid" style="grid-template-columns:repeat(auto-fill,minmax(230px,1fr));"></div>
       </section>
@@ -62,9 +62,9 @@ if (Auth.isLoggedIn()){
 <script src="js/shell.js"></script>
 <script>
 function courseCardHTML(c){
-  const badge = c.badge === 'new' ? '<span class="badge badge-new">New</span>'
-    : c.badge === 'hot' ? '<span class="badge badge-hot">Top rated</span>'
-    : c.badge === 'promo' ? '<span class="badge badge-promo">Promoted</span>' : '';
+  const badge = c.badge === 'new' ? '<span class="badge badge-new">Mới</span>'
+    : c.badge === 'hot' ? '<span class="badge badge-hot">Đánh giá cao</span>'
+    : c.badge === 'promo' ? '<span class="badge badge-promo">Nổi bật</span>' : '';
   const img = c.img || `https://source.unsplash.com/random/400x300?study&sig=${c.id}`;
   return `
     <article class="course-card">
@@ -75,11 +75,11 @@ function courseCardHTML(c){
       <div class="course-card__body">
         <h3 class="course-card__title">${c.title}</h3>
         ${starsHTML(c.rating || 4)}
-        <div class="course-card__author">${c.instructorName || 'Instructor'}</div>
+        <div class="course-card__author">${c.instructorName || 'Giảng viên'}</div>
         <p class="course-card__desc">${c.description || ''}</p>
         <div class="course-card__foot">
           <span class="course-card__price">${money(c.price)}</span>
-          <a class="btn btn-primary btn-sm" href="course-detail.html?id=${c.id}">View</a>
+          <a class="btn btn-primary btn-sm" href="course-detail.html?id=${c.id}">Xem chi tiết</a>
         </div>
       </div>
     </article>`;
@@ -87,7 +87,7 @@ function courseCardHTML(c){
 
 function categoryCardHTML(cat){
   const items = cat.items.slice(0, 5).map(i => `<li><a href="courses.html?category=${encodeURIComponent(i)}">${i}</a></li>`).join('');
-  const more = cat.more ? `<div class="category-card__more">Show more ▾</div>` : '';
+  const more = cat.more ? `<div class="category-card__more">Xem thêm ▾</div>` : '';
   return `<div class="category-card"><h3>${cat.name}</h3><ul>${items}</ul>${more}</div>`;
 }
 

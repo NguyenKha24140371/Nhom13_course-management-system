@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="vi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>E-Learning · Admin · Courses</title>
+<title>E-Learning · Quản trị · Khóa học</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/theme.css">
@@ -16,16 +16,16 @@
     <div class="content">
       <section class="page-head fade-up">
         <div>
-          <span class="eyebrow">Administration</span>
-          <h1>Courses</h1>
-          <p>Every course on the platform. Full create / edit / delete access.</p>
+          <span class="eyebrow">Quản trị</span>
+          <h1>Quản lý khóa học</h1>
+          <p>Tất cả khóa học trên nền tảng. Quyền thêm, sửa, xóa đầy đủ.</p>
         </div>
-        <a href="create-course.html" class="btn btn-primary">Add course</a>
+        <a href="create-course.html" class="btn btn-primary">Thêm khóa học</a>
       </section>
 
       <div class="table-wrap">
         <table class="data-table">
-          <thead><tr><th>Course title</th><th>Instructor</th><th>Price</th><th>Rating</th><th></th></tr></thead>
+          <thead><tr><th>Tên khóa học</th><th>Giảng viên</th><th>Học phí</th><th>Đánh giá</th><th></th></tr></thead>
           <tbody id="courseBody">
             <tr><td colspan="5"><div class="skeleton" style="height:40px;"></div></td></tr>
           </tbody>
@@ -46,8 +46,8 @@ function rowHTML(c){
       <td>${money(c.price)}</td>
       <td>${starsHTML(c.rating || 4)}</td>
       <td style="text-align:right; white-space:nowrap;">
-        <button class="btn btn-ghost btn-sm edit-btn">Edit</button>
-        <button class="btn btn-outline-brand btn-sm delete-btn">Delete</button>
+        <button class="btn btn-ghost btn-sm edit-btn">Sửa</button>
+        <button class="btn btn-outline-brand btn-sm delete-btn">Xóa</button>
       </td>
     </tr>`;
 }
@@ -63,10 +63,10 @@ document.getElementById('courseBody').addEventListener('click', async (e) => {
   const id = row.dataset.id;
 
   if (e.target.classList.contains('delete-btn')){
-    if (!confirm('Delete this course?')) return;
+    if (!confirm('Bạn có chắc chắn muốn xóa khóa học này?')) return;
     await CourseAPI.remove(id);
     row.remove();
-    toast('Course deleted.');
+    toast('Đã xóa khóa học.');
   }
   if (e.target.classList.contains('edit-btn')){
     window.location.href = `create-course.html?id=${id}`;

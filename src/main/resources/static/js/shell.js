@@ -31,38 +31,38 @@ const ICONS = {
    contains the Admin links at all (not just visually hidden). */
 const NAV_BY_ROLE = {
   STUDENT: [
-    { key:'student-dashboard', label:'Dashboard',        href:'student-dashboard.html', icon:'dashboard' },
+    { key:'student-dashboard', label:'Bảng điều khiển',     href:'student-dashboard.html', icon:'dashboard' },
     { key:'platform',          label:'Đăng ký khóa học',  href:'courses.html',           icon:'platform' },
     { key:'my',                label:'Khóa học của tôi',  href:'my-courses.html',        icon:'courses' },
     { key:'schedule',          label:'Lịch học',          href:'schedule.html',          icon:'calendar' },
-    { key:'profile',           label:'Hồ sơ',             href:'profile.html',           icon:'profile' },
+    { key:'profile',           label:'Hồ sơ cá nhân',     href:'profile.html',           icon:'profile' },
   ],
   TEACHER: [
-    { key:'teacher-dashboard', label:'Dashboard',        href:'teacher-dashboard.html', icon:'dashboard' },
+    { key:'teacher-dashboard', label:'Bảng điều khiển',     href:'teacher-dashboard.html', icon:'dashboard' },
     { key:'create',            label:'Giáo trình',        href:'create-course.html',     icon:'create' },
-    { key:'materials',         label:'Upload tài liệu',   href:'materials.html',         icon:'upload' },
+    { key:'materials',         label:'Tải lên tài liệu',  href:'materials.html',         icon:'upload' },
     { key:'schedule',          label:'Lịch dạy',          href:'schedule.html',          icon:'calendar' },
     { key:'students',          label:'Học viên',          href:'students.html',          icon:'users' },
-    { key:'profile',           label:'Hồ sơ',             href:'profile.html',           icon:'profile' },
+    { key:'profile',           label:'Hồ sơ cá nhân',     href:'profile.html',           icon:'profile' },
   ],
   ADMIN: [
-    { key:'admin-dashboard',   label:'Dashboard',          href:'admin-dashboard.html', icon:'dashboard' },
+    { key:'admin-dashboard',   label:'Bảng điều khiển',      href:'admin-dashboard.html', icon:'dashboard' },
     { key:'admin-users',       label:'Quản lý người dùng', href:'admin-users.html',     icon:'users' },
     { key:'admin-courses',     label:'Quản lý khóa học',   href:'admin-courses.html',   icon:'book' },
     { key:'schedule',          label:'Quản lý lịch học',   href:'schedule.html',        icon:'calendar' },
     { key:'materials',         label:'Quản lý giáo trình', href:'materials.html',       icon:'upload' },
-    { key:'admin-analytics',   label:'Báo cáo',            href:'admin-analytics.html', icon:'chart' },
+    { key:'admin-analytics',   label:'Báo cáo & Thống kê', href:'admin-analytics.html', icon:'chart' },
   ],
 };
 const GUEST_NAV = [
-  { key:'platform', label:'Khóa học', href:'courses.html', icon:'platform' },
-  { key:'about',    label:'Giới thiệu', href:'about.html', icon:'book' },
+  { key:'platform', label:'Danh sách khóa học', href:'courses.html', icon:'platform' },
+  { key:'about',    label:'Giới thiệu',         href:'about.html',   icon:'book' },
 ];
 
 function renderShell(active){
   const loggedIn = typeof Auth !== 'undefined' && Auth.isLoggedIn();
   const role = loggedIn ? Auth.getRole() : null;
-  const user = (loggedIn && Auth.getUser()) || { fullName: 'Guest' };
+  const user = (loggedIn && Auth.getUser()) || { fullName: 'Khách' };
   const initials = (user.fullName || user.username || 'GL').split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
   const items = loggedIn ? (NAV_BY_ROLE[role] || []) : GUEST_NAV;
 
@@ -90,10 +90,10 @@ function renderShell(active){
 
   const topbarNav = loggedIn ? '' : `
       <nav class="topbar__menu">
-        <a href="about.html#why">Why E-learning?</a>
-        <a href="about.html#how">How it works</a>
-        <a href="about.html#earn">Earn with platform</a>
-        <a href="courses.html">Find course</a>
+        <a href="about.html#why">Tại sao chọn E-learning?</a>
+        <a href="about.html#how">Cách thức hoạt động</a>
+        <a href="about.html#earn">Trở thành giảng viên</a>
+        <a href="courses.html">Tìm khóa học</a>
       </nav>`;
 
   const topbarUser = loggedIn ? `
@@ -102,18 +102,18 @@ function renderShell(active){
         ${ICONS.chevron}
       </div>` : `
       <div style="display:flex; gap:10px;">
-        <a href="login.html" class="btn btn-ghost btn-sm">Log in</a>
-        <a href="register.html" class="btn btn-primary btn-sm">Sign up</a>
+        <a href="login.html" class="btn btn-ghost btn-sm">Đăng nhập</a>
+        <a href="register.html" class="btn btn-primary btn-sm">Đăng ký</a>
       </div>`;
 
   const topbar = `
     <header class="topbar">
-      <button class="burger" id="burger" aria-label="Open menu">${ICONS.menu}</button>
+      <button class="burger" id="burger" aria-label="Mở menu">${ICONS.menu}</button>
       ${topbarNav}
       <div class="topbar__spacer"></div>
       <div class="topbar__search">
         ${ICONS.search}
-        <input type="search" placeholder="Search courses…" id="topSearch" aria-label="Search courses">
+        <input type="search" placeholder="Tìm kiếm khóa học…" id="topSearch" aria-label="Tìm kiếm khóa học">
       </div>
       ${topbarUser}
     </header>`;

@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="vi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>E-Learning · 403 Forbidden</title>
+<title>E-Learning · 403 Truy cập bị từ chối</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/theme.css">
@@ -16,18 +16,18 @@
 <body>
 <div class="error-shell">
   <div class="error-code">403</div>
-  <h1>Access denied</h1>
-  <p style="max-width:420px;">You don't have permission to view this page. If you think this is a mistake, contact an administrator.</p>
+  <h1>Truy cập bị từ chối</h1>
+  <p style="max-width:420px;">Bạn không có quyền truy cập trang này. Nếu bạn cho rằng đây là sự nhầm lẫn, vui lòng liên hệ quản trị viên.</p>
   <div style="display:flex; gap:10px; margin-top:14px;">
-    <a href="index.html" class="btn btn-ghost">Go home</a>
-    <a href="login.html" class="btn btn-primary" id="loginLink">Log in</a>
+    <a href="index.html" class="btn btn-ghost">Về trang chủ</a>
+    <a href="login.html" class="btn btn-primary" id="loginLink">Đăng nhập</a>
   </div>
 </div>
 <script src="js/api.js"></script>
 <script>
 if (Auth.isLoggedIn()){
   const link = document.getElementById('loginLink');
-  link.textContent = 'Go to my dashboard';
+  link.textContent = 'Về trang tổng quan';
   link.href = Auth.homeFor(Auth.getRole());
 }
 </script>

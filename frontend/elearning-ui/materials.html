@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="vi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>E-Learning · Materials</title>
+<title>E-Learning · Tài liệu học tập</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/theme.css">
@@ -16,32 +16,32 @@
     <div class="content">
       <section class="page-head fade-up">
         <div>
-          <span class="eyebrow" id="eyebrow">Teacher</span>
-          <h1 id="heading">Course materials</h1>
-          <p id="subheading">Upload slides, readings and assignments for your students.</p>
+          <span class="eyebrow" id="eyebrow">Giảng viên</span>
+          <h1 id="heading">Tài liệu học tập</h1>
+          <p id="subheading">Tải lên bài giảng, tài liệu đọc và bài tập cho học viên của bạn.</p>
         </div>
       </section>
 
       <form class="panel" id="uploadForm" style="max-width:560px; margin-bottom:28px;">
         <div class="field">
-          <label for="matTitle">Material title</label>
-          <input type="text" id="matTitle" placeholder="e.g. Week 3 slides" required>
+          <label for="matTitle">Tên tài liệu</label>
+          <input type="text" id="matTitle" placeholder="vd: Slide bài giảng Tuần 3" required>
         </div>
         <div class="field">
-          <label for="matCourse">Course</label>
+          <label for="matCourse">Khóa học</label>
           <select id="matCourse"></select>
         </div>
         <div class="field">
-          <label for="matFile">File</label>
+          <label for="matFile">Tệp tin</label>
           <input type="file" id="matFile">
-          <div class="field-hint">Demo UI only — file upload isn't wired to a backend endpoint yet.</div>
+          <div class="field-hint">Giao diện demo — chức năng tải tệp chưa kết nối backend.</div>
         </div>
-        <button type="submit" class="btn btn-primary">Upload</button>
+        <button type="submit" class="btn btn-primary">Tải lên</button>
       </form>
 
       <div class="table-wrap">
         <table class="data-table">
-          <thead><tr><th>Material</th><th>Course</th><th>Uploaded by</th><th>Date</th><th id="actionsHead"></th></tr></thead>
+          <thead><tr><th>Tên tài liệu</th><th>Khóa học</th><th>Người tải lên</th><th>Ngày tải</th><th id="actionsHead"></th></tr></thead>
           <tbody id="materialBody"></tbody>
         </table>
       </div>
@@ -54,21 +54,21 @@
 <script>
 const isAdmin = Auth.getRole() === 'ADMIN';
 if (isAdmin){
-  document.getElementById('eyebrow').textContent = 'Administration';
+  document.getElementById('eyebrow').textContent = 'Quản trị';
   document.getElementById('heading').textContent = 'Quản lý giáo trình';
-  document.getElementById('subheading').textContent = 'All materials uploaded by instructors across the platform.';
+  document.getElementById('subheading').textContent = 'Tất cả tài liệu do giảng viên tải lên trên hệ thống.';
   document.getElementById('uploadForm').style.display = 'none';
   document.getElementById('actionsHead').textContent = '';
 }
 
 const SEED_MATERIALS = [
-  { title:'Week 1 — Intro slides', course:'UX/UI Design Foundations', by:'Akila M.', date:'12 Jul 2026' },
-  { title:'Assignment brief.pdf', course:'Intro to Game Theory', by:'D. Marlowe', date:'18 Jul 2026' },
-  { title:'Reading list.docx', course:'Business Development Fundamentals', by:'Akila M.', date:'20 Jul 2026' },
+  { title:'Tuần 1 — Slide giới thiệu', course:'Nền tảng Thiết kế UX/UI', by:'Akila M.', date:'12/07/2026' },
+  { title:'De_bai_bai_tap.pdf', course:'Nhập môn Lý thuyết Trò chơi', by:'D. Marlowe', date:'18/07/2026' },
+  { title:'Danh_sach_tai_lieu_doc.docx', course:'Nền tảng Phát triển Doanh nghiệp', by:'Akila M.', date:'20/07/2026' },
 ];
 
 function rowHTML(m, i){
-  const actions = isAdmin ? `<td style="text-align:right;"><button class="btn btn-outline-brand btn-sm remove-btn" data-i="${i}">Remove</button></td>` : '<td></td>';
+  const actions = isAdmin ? `<td style="text-align:right;"><button class="btn btn-outline-brand btn-sm remove-btn" data-i="${i}">Xóa</button></td>` : '<td></td>';
   return `<tr><td style="color:#fff;font-weight:600;">${m.title}</td><td>${m.course}</td><td>${m.by}</td><td>${m.date}</td>${actions}</tr>`;
 }
 function renderMaterials(list){
@@ -81,7 +81,7 @@ document.getElementById('materialBody').addEventListener('click', (e) => {
   const i = Number(e.target.dataset.i);
   SEED_MATERIALS.splice(i, 1);
   renderMaterials(SEED_MATERIALS);
-  toast('Material removed.');
+  toast('Đã xóa tài liệu.');
 });
 
 (async function initCourseSelect(){
@@ -97,10 +97,10 @@ if (uploadForm){
     e.preventDefault();
     const title = document.getElementById('matTitle').value.trim();
     if (!title) return;
-    SEED_MATERIALS.unshift({ title, course: document.getElementById('matCourse').selectedOptions[0]?.textContent || '—', by: (Auth.getUser()||{}).fullName || 'You', date: new Date().toLocaleDateString() });
+    SEED_MATERIALS.unshift({ title, course: document.getElementById('matCourse').selectedOptions[0]?.textContent || '—', by: (Auth.getUser()||{}).fullName || 'Bạn', date: new Date().toLocaleDateString() });
     renderMaterials(SEED_MATERIALS);
     uploadForm.reset();
-    toast('Material uploaded (demo mode — no backend endpoint yet).');
+    toast('Đã tải tài liệu lên (chế độ demo — chưa kết nối backend).');
   });
 }
 </script>

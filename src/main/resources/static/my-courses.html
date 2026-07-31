@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="vi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>E-Learning · My Courses</title>
+<title>E-Learning · Khóa học của tôi</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/theme.css">
@@ -20,11 +20,11 @@
     <div class="content">
       <section class="page-head fade-up">
         <div>
-          <span class="eyebrow">Learning</span>
-          <h1>My courses</h1>
-          <p>Everything you're enrolled in, with progress saved automatically.</p>
+          <span class="eyebrow">Học tập</span>
+          <h1>Khóa học của tôi</h1>
+          <p>Tất cả các khóa học bạn đã đăng ký với tiến độ được lưu tự động.</p>
         </div>
-        <a href="courses.html" class="btn btn-primary">Find a new course</a>
+        <a href="courses.html" class="btn btn-primary">Tìm khóa học mới</a>
       </section>
 
       <div class="grid-cards" id="myGrid" style="grid-template-columns:repeat(auto-fill,minmax(260px,1fr));"></div>
@@ -42,12 +42,12 @@ function myCourseCard(c, progress){
       <div class="course-card__media"><img src="${img}" alt=""></div>
       <div class="course-card__body">
         <h3 class="course-card__title">${c.title}</h3>
-        <div class="course-card__author">${c.instructorName || 'Instructor'}</div>
+        <div class="course-card__author">${c.instructorName || 'Giảng viên'}</div>
         <div class="progress-track"><div class="progress-fill" style="width:${progress}%"></div></div>
         <div style="display:flex; justify-content:space-between; font-size:.74rem; color:var(--text-low); margin-top:6px;">
-          <span>${progress}% complete</span><span>${progress===100?'Done':'In progress'}</span>
+          <span>Đã hoàn thành ${progress}%</span><span>${progress===100?'Hoàn thành':'Đang học'}</span>
         </div>
-        <a class="btn btn-primary btn-sm btn-block" style="margin-top:12px;" href="course-detail.html?id=${c.id}">Resume</a>
+        <a class="btn btn-primary btn-sm btn-block" style="margin-top:12px;" href="course-detail.html?id=${c.id}">Tiếp tục học</a>
       </div>
     </article>`;
 }

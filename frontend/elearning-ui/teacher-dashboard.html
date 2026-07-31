@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="vi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>E-Learning · Teacher Dashboard</title>
+<title>E-Learning · Trang giảng viên</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/theme.css">
@@ -17,22 +17,22 @@
 
       <section class="page-head fade-up">
         <div>
-          <span class="eyebrow">Teacher</span>
-          <h1 id="welcomeHeading">Your teaching, at a glance</h1>
-          <p>Manage the courses you teach, upload materials, and check on your students.</p>
+          <span class="eyebrow">Giảng viên</span>
+          <h1 id="welcomeHeading">Tổng quan công việc giảng dạy</h1>
+          <p>Quản lý các khóa học, tải lên tài liệu và theo dõi tiến độ của học viên.</p>
         </div>
         <div style="display:flex; gap:10px;">
-          <a href="materials.html" class="btn btn-ghost">Upload material</a>
-          <a href="create-course.html" class="btn btn-primary">New syllabus</a>
+          <a href="materials.html" class="btn btn-ghost">Tải lên tài liệu</a>
+          <a href="create-course.html" class="btn btn-primary">Tạo giáo trình mới</a>
         </div>
       </section>
 
       <section class="section fade-up" style="margin-top:0;">
         <div class="kpi-row">
-          <div class="kpi"><div class="value" id="kpiCourses">—</div><div class="label">Courses you teach</div></div>
-          <div class="kpi"><div class="value">128</div><div class="label">Students enrolled</div></div>
-          <div class="kpi"><div class="value">4.7</div><div class="label">Avg. course rating</div></div>
-          <div class="kpi"><div class="value">9</div><div class="label">Materials uploaded</div></div>
+          <div class="kpi"><div class="value" id="kpiCourses">—</div><div class="label">Khóa học đang dạy</div></div>
+          <div class="kpi"><div class="value">128</div><div class="label">Học viên đã đăng ký</div></div>
+          <div class="kpi"><div class="value">4.7</div><div class="label">Đánh giá trung bình</div></div>
+          <div class="kpi"><div class="value">9</div><div class="label">Tài liệu đã tải lên</div></div>
         </div>
       </section>
 
@@ -40,28 +40,28 @@
         <div class="grid-cards" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));">
           <a class="category-card" href="create-course.html">
             <h3>Giáo trình</h3>
-            <p style="font-size:.85rem; margin:0;">Create and manage the courses you teach.</p>
+            <p style="font-size:.85rem; margin:0;">Tạo và quản lý các khóa học bạn giảng dạy.</p>
           </a>
           <a class="category-card" href="materials.html">
             <h3>Upload tài liệu</h3>
-            <p style="font-size:.85rem; margin:0;">Share slides, readings, and assignments with your class.</p>
+            <p style="font-size:.85rem; margin:0;">Chia sẻ bài giảng, tài liệu đọc và bài tập với lớp học.</p>
           </a>
           <a class="category-card" href="schedule.html">
             <h3>Lịch dạy</h3>
-            <p style="font-size:.85rem; margin:0;">See your upcoming teaching schedule.</p>
+            <p style="font-size:.85rem; margin:0;">Xem lịch giảng dạy sắp tới của bạn.</p>
           </a>
           <a class="category-card" href="students.html">
             <h3>Học viên</h3>
-            <p style="font-size:.85rem; margin:0;">View the students enrolled across your courses.</p>
+            <p style="font-size:.85rem; margin:0;">Xem danh sách học viên đăng ký các khóa học của bạn.</p>
           </a>
         </div>
       </section>
 
       <section class="section">
-        <div class="section__head"><h2>Your courses</h2><a href="create-course.html">Add new →</a></div>
+        <div class="section__head"><h2>Khóa học của bạn</h2><a href="create-course.html">Thêm mới →</a></div>
         <div class="table-wrap">
           <table class="data-table">
-            <thead><tr><th>Course</th><th>Students</th><th>Lessons</th><th>Rating</th><th></th></tr></thead>
+            <thead><tr><th>Khóa học</th><th>Học viên</th><th>Bài học</th><th>Đánh giá</th><th></th></tr></thead>
             <tbody id="teacherCourseBody"></tbody>
           </table>
         </div>
@@ -74,7 +74,7 @@
 <script src="js/api.js"></script>
 <script src="js/shell.js"></script>
 <script>
-document.getElementById('welcomeHeading').textContent = `Welcome, ${(Auth.getUser()||{}).fullName || 'instructor'}`;
+document.getElementById('welcomeHeading').textContent = `Chào mừng, ${(Auth.getUser()||{}).fullName || 'giảng viên'}`;
 
 function rowHTML(c, i){
   return `
@@ -83,7 +83,7 @@ function rowHTML(c, i){
       <td>${18 + i*7}</td>
       <td>${c.duration || 6}</td>
       <td>${starsHTML(c.rating || 4)}</td>
-      <td style="text-align:right;"><a class="btn btn-outline-brand btn-sm" href="course-detail.html?id=${c.id}">Manage</a></td>
+      <td style="text-align:right;"><a class="btn btn-outline-brand btn-sm" href="course-detail.html?id=${c.id}">Quản lý</a></td>
     </tr>`;
 }
 

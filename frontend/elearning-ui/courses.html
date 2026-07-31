@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="vi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>E-Learning · Platform Courses</title>
+<title>E-Learning · Danh sách khóa học</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/theme.css">
@@ -17,23 +17,23 @@
 
       <section class="page-head fade-up">
         <div>
-          <span class="eyebrow">Catalog</span>
-          <h1>Platform courses</h1>
-          <p id="resultCount">Loading courses…</p>
+          <span class="eyebrow">Danh mục</span>
+          <h1>Danh sách khóa học</h1>
+          <p id="resultCount">Đang tải khóa học…</p>
         </div>
         <div class="topbar__search" style="width:280px;">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3" stroke-linecap="round"/></svg>
-          <input type="search" id="courseSearch" placeholder="Search by title…">
+          <input type="search" id="courseSearch" placeholder="Tìm kiếm theo tên khóa học…">
         </div>
       </section>
 
       <section class="section" style="margin-top:0;">
         <div class="tabs" id="filterTabs">
-          <button class="chip is-active" data-filter="all">All</button>
-          <button class="chip" data-filter="new">✦ New</button>
-          <button class="chip" data-filter="top">★ Top rated</button>
-          <button class="chip" data-filter="master">◆ Master</button>
-          <button class="chip" data-filter="promo">▲ Promoted</button>
+          <button class="chip is-active" data-filter="all">Tất cả</button>
+          <button class="chip" data-filter="new">✦ Mới</button>
+          <button class="chip" data-filter="top">★ Đánh giá cao</button>
+          <button class="chip" data-filter="master">◆ Chuyên sâu</button>
+          <button class="chip" data-filter="promo">▲ Nổi bật</button>
         </div>
       </section>
 
@@ -42,11 +42,11 @@
           <table class="data-table">
             <thead>
               <tr>
-                <th>Course title</th>
-                <th>Author</th>
-                <th>Lessons</th>
-                <th>Price</th>
-                <th>Rating</th>
+                <th>Tên khóa học</th>
+                <th>Giảng viên</th>
+                <th>Số bài học</th>
+                <th>Học phí</th>
+                <th>Đánh giá</th>
                 <th></th>
               </tr>
             </thead>
@@ -58,8 +58,8 @@
           </table>
         </div>
         <div class="empty-state" id="emptyState" style="display:none;">
-          <h3>No courses match that search</h3>
-          <p>Try a different keyword or clear the filters.</p>
+          <h3>Không tìm thấy khóa học phù hợp</h3>
+          <p>Thử từ khóa khác hoặc xóa bộ lọc.</p>
         </div>
       </section>
 
@@ -88,7 +88,7 @@ function rowHTML(c){
       <td>${lessonCount}</td>
       <td>${money(c.price)}</td>
       <td>${starsHTML(c.rating || 4)}</td>
-      <td style="text-align:right;"><a class="btn btn-outline-brand btn-sm" href="course-detail.html?id=${c.id}">View</a></td>
+      <td style="text-align:right;"><a class="btn btn-outline-brand btn-sm" href="course-detail.html?id=${c.id}">Xem</a></td>
     </tr>`;
 }
 
@@ -102,7 +102,7 @@ function applyFilters(){
 
   const body = document.getElementById('courseTableBody');
   const empty = document.getElementById('emptyState');
-  document.getElementById('resultCount').textContent = `${list.length} course${list.length===1?'':'s'} available`;
+  document.getElementById('resultCount').textContent = `${list.length} khóa học hiện có`;
 
   if (!list.length){
     body.innerHTML = '';

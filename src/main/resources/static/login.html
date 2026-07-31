@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="vi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>E-Learning · Log in</title>
+<title>E-Learning · Đăng nhập</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/theme.css">
@@ -15,39 +15,39 @@
     <div class="sidebar__brand" style="padding:0; color:#fff;"><span class="dot"></span> E-Learning</div>
     <div class="auth-visual__quote">
       <div class="stars">★★★★<span class="dim">★</span></div>
-      <h2 style="font-size:1.6rem; color:#fff; margin-top:14px;">"I finished my UX/UI certificate in six weeks, studying twenty minutes a day."</h2>
-      <p style="color:rgba(255,255,255,0.75);">— A learner on the platform</p>
+      <h2 style="font-size:1.6rem; color:#fff; margin-top:14px;">"Tôi đã hoàn thành chứng chỉ UX/UI trong 6 tuần, chỉ học 20 phút mỗi ngày."</h2>
+      <p style="color:rgba(255,255,255,0.75);">— Một học viên trên nền tảng</p>
     </div>
-    <p style="color:rgba(255,255,255,0.55); font-size:.78rem;">© 2026 E-Learning. All rights reserved.</p>
+    <p style="color:rgba(255,255,255,0.55); font-size:.78rem;">© 2026 E-Learning. Tất cả quyền được bảo lưu.</p>
   </div>
 
   <div class="auth-form-wrap">
     <div class="auth-card">
-      <span class="eyebrow">Welcome back</span>
-      <h1>Log in to your account</h1>
-      <p style="margin-bottom:26px;">New here? <a href="register.html" style="color:var(--mint); font-weight:600;">Create an account</a></p>
+      <span class="eyebrow">Chào mừng trở lại</span>
+      <h1>Đăng nhập vào tài khoản</h1>
+      <p style="margin-bottom:26px;">Chưa có tài khoản? <a href="register.html" style="color:var(--mint); font-weight:600;">Tạo tài khoản mới</a></p>
 
       <form id="loginForm" novalidate>
         <div class="field">
-          <label for="username">Username or email</label>
+          <label for="username">Tên đăng nhập hoặc email</label>
           <input type="text" id="username" name="username" autocomplete="username" required>
         </div>
         <div class="field">
-          <label for="password">Password</label>
+          <label for="password">Mật khẩu</label>
           <input type="password" id="password" name="password" autocomplete="current-password" required>
-          <div class="field-error">Enter your username and password to continue.</div>
+          <div class="field-error">Vui lòng nhập tên đăng nhập và mật khẩu để tiếp tục.</div>
         </div>
         <div class="field">
-          <label for="loginRole">Continue as</label>
+          <label for="loginRole">Đăng nhập với vai trò</label>
           <select id="loginRole" name="loginRole" required>
-            <option value="STUDENT">Student</option>
-            <option value="TEACHER">Teacher</option>
-            <option value="ADMIN">Admin</option>
+            <option value="STUDENT">Học viên</option>
+            <option value="TEACHER">Giảng viên</option>
+            <option value="ADMIN">Quản trị viên</option>
           </select>
-          <div class="field-hint">The API doesn't return a role on login yet, so pick the account type you're signing in as. Demo accounts: student/123, instructor/123, admin/123.</div>
+          <div class="field-hint">API chưa trả về vai trò khi đăng nhập, vui lòng chọn loại tài khoản bạn sử dụng. Tài khoản demo: student/123, instructor/123, admin/123.</div>
         </div>
-        <button type="submit" class="btn btn-primary btn-block">Log in</button>
-        <a href="index.html" class="btn btn-ghost btn-block" style="margin-top:10px;">Continue as guest</a>
+        <button type="submit" class="btn btn-primary btn-block">Đăng nhập</button>
+        <a href="index.html" class="btn btn-ghost btn-block" style="margin-top:10px;">Tiếp tục với tư cách Khách</a>
       </form>
     </div>
   </div>

@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="vi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>E-Learning · Admin · Users</title>
+<title>E-Learning · Quản trị · Người dùng</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/theme.css">
@@ -16,16 +16,16 @@
     <div class="content">
       <section class="page-head fade-up">
         <div>
-          <span class="eyebrow">Administration</span>
-          <h1>Users</h1>
-          <p>Students, teachers and admins registered on the platform.</p>
+          <span class="eyebrow">Quản trị</span>
+          <h1>Quản lý người dùng</h1>
+          <p>Học viên, giảng viên và quản trị viên đã đăng ký trên hệ thống.</p>
         </div>
-        <button class="btn btn-primary" id="inviteBtn">Invite user</button>
+        <button class="btn btn-primary" id="inviteBtn">Mời người dùng</button>
       </section>
 
       <div class="table-wrap">
         <table class="data-table">
-          <thead><tr><th>Name</th><th>Role</th><th>Email</th><th>Joined</th><th>Status</th><th></th></tr></thead>
+          <thead><tr><th>Họ và tên</th><th>Vai trò</th><th>Email</th><th>Ngày tham gia</th><th>Trạng thái</th><th></th></tr></thead>
           <tbody id="userBody"></tbody>
         </table>
       </div>
@@ -37,14 +37,14 @@
 <script src="js/shell.js"></script>
 <script>
 let USERS = [
-  { name:'System Administrator', role:'Admin', email:'admin123@gmail.com', joined:'Jan 2026', status:'Active' },
-  { name:'Akila M.', role:'Teacher', email:'akila@elearning.io', joined:'Jan 2026', status:'Active' },
-  { name:'Alice K.', role:'Student', email:'alice.k@mail.com', joined:'Feb 2026', status:'Active' },
-  { name:'D. Marlowe', role:'Teacher', email:'d.marlowe@elearning.io', joined:'Mar 2026', status:'Active' },
-  { name:'Priya R.', role:'Student', email:'priya.r@mail.com', joined:'Apr 2026', status:'Invited' },
-  { name:'Tom H.', role:'Student', email:'tom.h@mail.com', joined:'Jun 2026', status:'Suspended' },
+  { name:'System Administrator', role:'Quản trị viên', email:'admin123@gmail.com', joined:'Thg 1 2026', status:'Hoạt động' },
+  { name:'Akila M.', role:'Giảng viên', email:'akila@elearning.io', joined:'Thg 1 2026', status:'Hoạt động' },
+  { name:'Alice K.', role:'Học viên', email:'alice.k@mail.com', joined:'Thg 2 2026', status:'Hoạt động' },
+  { name:'D. Marlowe', role:'Giảng viên', email:'d.marlowe@elearning.io', joined:'Thg 3 2026', status:'Hoạt động' },
+  { name:'Priya R.', role:'Học viên', email:'priya.r@mail.com', joined:'Thg 4 2026', status:'Đã mời' },
+  { name:'Tom H.', role:'Học viên', email:'tom.h@mail.com', joined:'Thg 6 2026', status:'Tạm khóa' },
 ];
-const statusColor = { Active:'badge-new', Invited:'badge-hot', Suspended:'badge-promo' };
+const statusColor = { 'Hoạt động':'badge-new', 'Đã mời':'badge-hot', 'Tạm khóa':'badge-promo' };
 
 function render(){
   document.getElementById('userBody').innerHTML = USERS.map((u,i) => `
@@ -55,7 +55,7 @@ function render(){
       <td>${u.joined}</td>
       <td><span class="badge ${statusColor[u.status]}">${u.status}</span></td>
       <td style="text-align:right; white-space:nowrap;">
-        <button class="btn btn-ghost btn-sm suspend-btn" data-i="${i}">${u.status === 'Suspended' ? 'Reactivate' : 'Suspend'}</button>
+        <button class="btn btn-ghost btn-sm suspend-btn" data-i="${i}">${u.status === 'Tạm khóa' ? 'Kích hoạt lại' : 'Tạm khóa'}</button>
       </td>
     </tr>`).join('');
 }
@@ -64,13 +64,13 @@ render();
 document.getElementById('userBody').addEventListener('click', (e) => {
   if (!e.target.classList.contains('suspend-btn')) return;
   const i = Number(e.target.dataset.i);
-  USERS[i].status = USERS[i].status === 'Suspended' ? 'Active' : 'Suspended';
+  USERS[i].status = USERS[i].status === 'Tạm khóa' ? 'Hoạt động' : 'Tạm khóa';
   render();
-  toast(`${USERS[i].name} is now ${USERS[i].status}.`);
+  toast(`${USERS[i].name} hiện tại ${USERS[i].status}.`);
 });
 
 document.getElementById('inviteBtn').addEventListener('click', () => {
-  toast('Invite flow is demo-only — no backend endpoint yet.');
+  toast('Chức năng mời người dùng ở chế độ demo — chưa có endpoint backend.');
 });
 </script>
 </body>

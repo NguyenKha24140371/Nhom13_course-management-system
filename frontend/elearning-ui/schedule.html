@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="vi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>E-Learning · Schedule</title>
+<title>E-Learning · Lịch học</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/theme.css">
@@ -16,15 +16,15 @@
     <div class="content">
       <section class="page-head fade-up">
         <div>
-          <span class="eyebrow" id="eyebrow">Learning</span>
+          <span class="eyebrow" id="eyebrow">Học tập</span>
           <h1 id="heading">Lịch học</h1>
-          <p id="subheading">Your upcoming live sessions and deadlines this week.</p>
+          <p id="subheading">Các buổi học trực tiếp và thời hạn bài tập sắp tới trong tuần.</p>
         </div>
       </section>
 
       <div class="table-wrap">
         <table class="data-table">
-          <thead><tr><th>Day</th><th>Time</th><th>Course</th><th>Type</th></tr></thead>
+          <thead><tr><th>Thứ / Ngày</th><th>Thời gian</th><th>Khóa học</th><th>Loại hình</th></tr></thead>
           <tbody id="scheduleBody"></tbody>
         </table>
       </div>
@@ -37,9 +37,9 @@
 <script>
 const role = Auth.getRole();
 const COPY = {
-  STUDENT: { eyebrow:'Learning', heading:'Lịch học', sub:"Your upcoming live sessions and deadlines this week." },
-  TEACHER: { eyebrow:'Teacher', heading:'Lịch dạy', sub:'Your upcoming teaching sessions this week.' },
-  ADMIN:   { eyebrow:'Administration', heading:'Quản lý lịch học', sub:'The full platform teaching schedule.' },
+  STUDENT: { eyebrow:'Học tập', heading:'Lịch học', sub:'Các buổi học trực tiếp và thời hạn bài tập sắp tới trong tuần.' },
+  TEACHER: { eyebrow:'Giảng dạy', heading:'Lịch dạy', sub:'Các buổi giảng dạy sắp tới của bạn trong tuần.' },
+  ADMIN:   { eyebrow:'Quản trị', heading:'Quản lý lịch học', sub:'Lịch giảng dạy trên toàn nền tảng.' },
 };
 const c = COPY[role] || COPY.STUDENT;
 document.getElementById('eyebrow').textContent = c.eyebrow;
@@ -47,10 +47,10 @@ document.getElementById('heading').textContent = c.heading;
 document.getElementById('subheading').textContent = c.sub;
 
 const SEED_SCHEDULE = [
-  { day:'Monday',    time:'18:00 – 19:30', course:'UX/UI Design Foundations', type:'Live session' },
-  { day:'Tuesday',   time:'20:00 – 21:00', course:'Intro to Game Theory', type:'Office hours' },
-  { day:'Thursday',  time:'19:00 – 20:30', course:'Business Development Fundamentals', type:'Live session' },
-  { day:'Saturday',  time:'10:00 – 11:00', course:'Floristics: Design & Arrangement', type:'Assignment due' },
+  { day:'Thứ Hai',   time:'18:00 – 19:30', course:'Nền tảng Thiết kế UX/UI', type:'Buổi học trực tiếp' },
+  { day:'Thứ Ba',    time:'20:00 – 21:00', course:'Nhập môn Lý thuyết Trò chơi', type:'Giải đáp thắc mắc' },
+  { day:'Thứ Năm',   time:'19:00 – 20:30', course:'Nền tảng Phát triển Doanh nghiệp', type:'Buổi học trực tiếp' },
+  { day:'Thứ Bảy',   time:'10:00 – 11:00', course:'Nghệ thuật Cắm hoa & Thiết kế', type:'Hạn nộp bài tập' },
 ];
 document.getElementById('scheduleBody').innerHTML = SEED_SCHEDULE.map(s => `
   <tr>

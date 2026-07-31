@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en">
+<html lang="vi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>E-Learning · Student Dashboard</title>
+<title>E-Learning · Trang học viên</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/theme.css">
@@ -17,20 +17,20 @@
 
       <section class="page-head fade-up">
         <div>
-          <span class="eyebrow">Welcome back</span>
-          <h1 id="welcomeHeading">Pick up where you left off</h1>
-          <p>You're 3 lessons away from finishing <strong style="color:#fff">UX/UI Design Foundations</strong>.</p>
+          <span class="eyebrow">Chào mừng trở lại</span>
+          <h1 id="welcomeHeading">Tiếp tục bài học dở dang</h1>
+          <p>Bạn còn 3 bài học nữa là hoàn thành <strong style="color:#fff">Nền tảng Thiết kế UX/UI</strong>.</p>
         </div>
         <div style="display:flex; gap:10px;">
-          <a href="courses.html" class="btn btn-ghost">Browse catalog</a>
-          <a href="my-courses.html" class="btn btn-primary">My courses</a>
+          <a href="courses.html" class="btn btn-ghost">Xem danh mục</a>
+          <a href="my-courses.html" class="btn btn-primary">Khóa học của tôi</a>
         </div>
       </section>
 
       <section class="section fade-up" style="margin-top:0;">
         <div class="kpi-row" style="grid-template-columns: 1.3fr repeat(3,1fr);">
           <div class="stat-card">
-            <div class="label">Hours studied — last 6 months</div>
+            <div class="label">Số giờ đã học — 6 tháng qua</div>
             <div class="value" id="hoursValue">13</div>
             <svg class="mini-chart" id="hoursChart" viewBox="0 0 300 110" preserveAspectRatio="none">
               <defs>
@@ -44,26 +44,26 @@
           </div>
           <div class="kpi">
             <div class="value">7</div>
-            <div class="label">Courses in progress</div>
-            <div class="delta up">▲ 2 this month</div>
+            <div class="label">Khóa học đang học</div>
+            <div class="delta up">▲ 2 trong tháng này</div>
           </div>
           <div class="kpi">
             <div class="value">4</div>
-            <div class="label">Certificates earned</div>
-            <div class="delta up">▲ 1 this month</div>
+            <div class="label">Chứng chỉ đã nhận</div>
+            <div class="delta up">▲ 1 trong tháng này</div>
           </div>
           <div class="kpi">
             <div class="value">86%</div>
-            <div class="label">Avg. completion rate</div>
-            <div class="delta down">▼ 3% vs last term</div>
+            <div class="label">Tỷ lệ hoàn thành trung bình</div>
+            <div class="delta down">▼ 3% so với kỳ trước</div>
           </div>
         </div>
       </section>
 
       <section class="section" id="promotedSection">
         <div class="section__head">
-          <h2>Promoted courses</h2>
-          <a href="courses.html">View all →</a>
+          <h2>Khóa học nổi bật</h2>
+          <a href="courses.html">Xem tất cả →</a>
         </div>
         <div class="grid-cards" id="promotedGrid">
           <div class="course-card skeleton" style="height:230px"></div>
@@ -75,7 +75,7 @@
 
       <section class="section" id="categoriesSection">
         <div class="section__head">
-          <h2>Categories</h2>
+          <h2>Danh mục khóa học</h2>
         </div>
         <div class="grid-cards" id="categoryGrid" style="grid-template-columns:repeat(auto-fill,minmax(230px,1fr));"></div>
       </section>
@@ -87,7 +87,7 @@
 <script src="js/api.js"></script>
 <script src="js/shell.js"></script>
 <script>
-document.getElementById('welcomeHeading').textContent = `Welcome back, ${(Auth.getUser()||{}).fullName || 'learner'}`;
+document.getElementById('welcomeHeading').textContent = `Chào mừng trở lại, ${(Auth.getUser()||{}).fullName || 'học viên'}`;
 
 function renderMiniChart(values){
   const svg = document.getElementById('chartGroup');
@@ -110,9 +110,9 @@ function renderMiniChart(values){
 renderMiniChart([6,9,4,11,8,13]);
 
 function courseCardHTML(c){
-  const badge = c.badge === 'new' ? '<span class="badge badge-new">New</span>'
-    : c.badge === 'hot' ? '<span class="badge badge-hot">Top rated</span>'
-    : c.badge === 'promo' ? '<span class="badge badge-promo">Promoted</span>' : '';
+  const badge = c.badge === 'new' ? '<span class="badge badge-new">Mới</span>'
+    : c.badge === 'hot' ? '<span class="badge badge-hot">Đánh giá cao</span>'
+    : c.badge === 'promo' ? '<span class="badge badge-promo">Nổi bật</span>' : '';
   const img = c.img || `https://source.unsplash.com/random/400x300?study&sig=${c.id}`;
   return `
     <article class="course-card">
@@ -123,11 +123,11 @@ function courseCardHTML(c){
       <div class="course-card__body">
         <h3 class="course-card__title">${c.title}</h3>
         ${starsHTML(c.rating || 4)}
-        <div class="course-card__author">${c.instructorName || 'Instructor'}</div>
+        <div class="course-card__author">${c.instructorName || 'Giảng viên'}</div>
         <p class="course-card__desc">${c.description || ''}</p>
         <div class="course-card__foot">
           <span class="course-card__price">${money(c.price)}</span>
-          <a class="btn btn-primary btn-sm" href="course-detail.html?id=${c.id}">View</a>
+          <a class="btn btn-primary btn-sm" href="course-detail.html?id=${c.id}">Xem chi tiết</a>
         </div>
       </div>
     </article>`;
@@ -135,7 +135,7 @@ function courseCardHTML(c){
 
 function categoryCardHTML(cat){
   const items = cat.items.slice(0, 5).map(i => `<li><a href="courses.html?category=${encodeURIComponent(i)}">${i}</a></li>`).join('');
-  const more = cat.more ? `<div class="category-card__more">Show more ▾</div>` : '';
+  const more = cat.more ? `<div class="category-card__more">Xem thêm ▾</div>` : '';
   return `<div class="category-card"><h3>${cat.name}</h3><ul>${items}</ul>${more}</div>`;
 }
 
