@@ -1,11 +1,14 @@
 package com.cms.config;
 
+import com.cms.model.Role;
 import com.cms.model.User;
 import com.cms.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.Set;
 
 @Configuration
 public class DataInitializer {
@@ -22,7 +25,7 @@ public class DataInitializer {
                 admin.setEmail("admin123@gmail.com");
                 admin.setFullName("System Administrator");
                 admin.setActive(true);
-                admin.setRole("ROLE_ADMIN"); // 👈 MỞ UNCOMMENT
+                admin.setRoles(Set.of(Role.ROLE_ADMIN));
 
                 userRepository.save(admin);
                 System.out.println(">>> ĐÃ TẠO TÀI KHOẢN ADMIN: admin / 123");
@@ -36,7 +39,7 @@ public class DataInitializer {
                 instructor.setEmail("instructor@gmail.com");
                 instructor.setFullName("Giảng viên Nguyễn Văn A");
                 instructor.setActive(true);
-                instructor.setRole("ROLE_INSTRUCTOR"); // 👈 MỞ UNCOMMENT
+                instructor.setRoles(Set.of(Role.ROLE_INSTRUCTOR));
 
                 userRepository.save(instructor);
                 System.out.println(">>> ĐÃ TẠO TÀI KHOẢN GIẢNG VIÊN: instructor / 123");
@@ -50,7 +53,7 @@ public class DataInitializer {
                 student.setEmail("student@gmail.com");
                 student.setFullName("Học viên Trần Văn B");
                 student.setActive(true);
-                student.setRole("ROLE_USER"); // 👈 MỞ UNCOMMENT
+                student.setRoles(Set.of(Role.ROLE_STUDENT));
 
                 userRepository.save(student);
                 System.out.println(">>> ĐÃ TẠO TÀI KHOẢN HỌC VIÊN: student / 123");

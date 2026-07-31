@@ -61,18 +61,19 @@
 <script>
 document.getElementById('registerForm').addEventListener('submit', async (e) => {
   e.preventDefault();
+  const role = document.getElementById('role').value;
   const payload = {
     fullName: document.getElementById('fullName').value.trim(),
     email: document.getElementById('email').value.trim(),
     username: document.getElementById('regUsername').value.trim(),
     password: document.getElementById('regPassword').value,
-    role: document.getElementById('role').value,
+    role: role,
   };
   try{
     await AuthAPI.register(payload);
     toast && toast('Account created — please log in.');
   }catch(err){ /* demo mode: ignore network errors */ }
-  window.location.href = 'login.html';
+  window.location.href = `login.html?role=${encodeURIComponent(role === 'INSTRUCTOR' ? 'TEACHER' : role)}`;
 });
 </script>
 </body>

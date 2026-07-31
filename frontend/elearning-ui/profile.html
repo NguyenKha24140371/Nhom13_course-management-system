@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-Learning · Profile</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/theme.css">
+<link rel="stylesheet" href="css/layout.css?v=2">
+<link rel="stylesheet" href="css/components.css">
+</head>
+<body data-active="profile" data-roles="STUDENT,TEACHER,ADMIN">
+<div class="app" id="app">
+  <main>
+    <div class="content" style="max-width:640px;">
+      <section class="page-head fade-up">
+        <div>
+          <span class="eyebrow">Account</span>
+          <h1>Hồ sơ cá nhân</h1>
+          <p>Your account information.</p>
+        </div>
+      </section>
+
+      <form class="panel" id="profileForm">
+        <div class="field">
+          <label for="pFullName">Full name</label>
+          <input type="text" id="pFullName" disabled>
+        </div>
+        <div class="field">
+          <label for="pUsername">Username</label>
+          <input type="text" id="pUsername" disabled>
+        </div>
+        <div class="field">
+          <label for="pRole">Role</label>
+          <input type="text" id="pRole" disabled>
+        </div>
+        <div class="field-hint" style="margin-bottom:16px;">Profile editing isn't wired to a backend endpoint yet — this view is read-only.</div>
+        <button type="button" class="btn btn-ghost" id="logoutBtn2">Log out</button>
+      </form>
+    </div>
+  </main>
+</div>
+
+<script src="js/api.js?v=2"></script>
+<script src="js/shell.js?v=2"></script>
+<script>
+const u = Auth.getUser() || {};
+document.getElementById('pFullName').value = u.fullName || '—';
+document.getElementById('pUsername').value = u.username || '—';
+document.getElementById('pRole').value = (typeof ROLE_LABEL !== 'undefined' ? ROLE_LABEL[u.role] : u.role) || '—';
+document.getElementById('logoutBtn2').addEventListener('click', () => { Auth.logout(); window.location.href = 'index.html'; });
+</script>
+</body>
+</html>

@@ -10,14 +10,14 @@
 <link rel="stylesheet" href="css/layout.css">
 <link rel="stylesheet" href="css/components.css">
 </head>
-<body data-active="create">
+<body data-active="create" data-roles="TEACHER,ADMIN">
 <div class="app" id="app">
   <main>
     <div class="content" style="max-width:760px;">
       <section class="page-head fade-up">
         <div>
-          <span class="eyebrow">Instructor</span>
-          <h1>Create a new course</h1>
+          <span class="eyebrow">Giáo trình</span>
+          <h1 id="formHeading">Create a new course</h1>
           <p>Fill in the basics now — you can add lessons right after.</p>
         </div>
       </section>
@@ -31,7 +31,7 @@
           <label for="description">Description</label>
           <textarea id="description" rows="4" placeholder="What will students be able to do by the end?" required></textarea>
         </div>
-        <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+        <div class="field-row">
           <div class="field">
             <label for="price">Price (€)</label>
             <input type="number" id="price" min="0" step="1" value="23" required>
@@ -53,8 +53,8 @@
           </select>
         </div>
         <div style="display:flex; gap:10px; margin-top:8px;">
-          <button type="submit" class="btn btn-primary">Publish course</button>
-          <a href="my-courses.html" class="btn btn-ghost">Cancel</a>
+          <button type="submit" class="btn btn-primary" id="submitBtn">Publish course</button>
+          <a href="#" id="cancelLink" class="btn btn-ghost">Cancel</a>
         </div>
       </form>
     </div>
@@ -64,6 +64,24 @@
 <script src="js/api.js"></script>
 <script src="js/shell.js"></script>
 <script>
+const isAdmin = Auth.getRole() === 'ADMIN';
+document.getElementById('cancelLink').href = isAdmin ? 'admin-courses.html' : 'teacher-dashboard.html';
+
+const editId = new URLSearchParams(window.location.search).get('id');
+
+(async function prefillIfEditing(){
+  if (!editId) return;
+  document.getElementById('formHeading').textContent = 'Edit course';
+  document.getElementById('submitBtn').textContent = 'Save changes';
+  try{
+    const c = await CourseAPI.get(editId);
+    document.getElementById('title').value = c.title || '';
+    document.getElementById('description').value = c.description || '';
+    document.getElementById('price').value = c.price ?? 23;
+    document.getElementById('duration').value = c.duration ?? 6;
+  }catch(e){ /* demo mode: leave fields blank */ }
+})();
+
 document.getElementById('courseForm').addEventListener('submit', async (e) => {
   e.preventDefault();
   const payload = {
@@ -73,12 +91,13 @@ document.getElementById('courseForm').addEventListener('submit', async (e) => {
     duration: Number(document.getElementById('duration').value),
   };
   try{
-    await apiFetch('/courses', { method:'POST', body: JSON.stringify(payload) });
-    toast('Course published.');
+    if (editId) await CourseAPI.update(editId, payload);
+    else await CourseAPI.create(payload);
+    toast(editId ? 'Course updated.' : 'Course published.');
   }catch(err){
     toast('Saved locally (demo mode — backend not reachable).');
   }
-  setTimeout(() => window.location.href = 'my-courses.html', 700);
+  setTimeout(() => window.location.href = isAdmin ? 'admin-courses.html' : 'teacher-dashboard.html', 700);
 });
 </script>
 </body>

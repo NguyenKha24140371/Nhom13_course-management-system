@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="css/layout.css">
 <link rel="stylesheet" href="css/components.css">
 </head>
-<body data-active="admin-users">
+<body data-active="admin-users" data-roles="ADMIN">
 <div class="app" id="app">
   <main>
     <div class="content">
@@ -18,14 +18,14 @@
         <div>
           <span class="eyebrow">Administration</span>
           <h1>Users</h1>
-          <p>Students and instructors registered on the platform.</p>
+          <p>Students, teachers and admins registered on the platform.</p>
         </div>
-        <button class="btn btn-primary">Invite user</button>
+        <button class="btn btn-primary" id="inviteBtn">Invite user</button>
       </section>
 
       <div class="table-wrap">
         <table class="data-table">
-          <thead><tr><th>Name</th><th>Role</th><th>Email</th><th>Joined</th><th>Status</th></tr></thead>
+          <thead><tr><th>Name</th><th>Role</th><th>Email</th><th>Joined</th><th>Status</th><th></th></tr></thead>
           <tbody id="userBody"></tbody>
         </table>
       </div>
@@ -36,22 +36,42 @@
 <script src="js/api.js"></script>
 <script src="js/shell.js"></script>
 <script>
-const USERS = [
-  { name:'Akila M.', role:'Instructor', email:'akila@elearning.io', joined:'Jan 2026', status:'Active' },
+let USERS = [
+  { name:'System Administrator', role:'Admin', email:'admin123@gmail.com', joined:'Jan 2026', status:'Active' },
+  { name:'Akila M.', role:'Teacher', email:'akila@elearning.io', joined:'Jan 2026', status:'Active' },
   { name:'Alice K.', role:'Student', email:'alice.k@mail.com', joined:'Feb 2026', status:'Active' },
-  { name:'D. Marlowe', role:'Instructor', email:'d.marlowe@elearning.io', joined:'Mar 2026', status:'Active' },
+  { name:'D. Marlowe', role:'Teacher', email:'d.marlowe@elearning.io', joined:'Mar 2026', status:'Active' },
   { name:'Priya R.', role:'Student', email:'priya.r@mail.com', joined:'Apr 2026', status:'Invited' },
   { name:'Tom H.', role:'Student', email:'tom.h@mail.com', joined:'Jun 2026', status:'Suspended' },
 ];
 const statusColor = { Active:'badge-new', Invited:'badge-hot', Suspended:'badge-promo' };
-document.getElementById('userBody').innerHTML = USERS.map(u => `
-  <tr>
-    <td style="color:#fff; font-weight:600;">${u.name}</td>
-    <td>${u.role}</td>
-    <td>${u.email}</td>
-    <td>${u.joined}</td>
-    <td><span class="badge ${statusColor[u.status]}">${u.status}</span></td>
-  </tr>`).join('');
+
+function render(){
+  document.getElementById('userBody').innerHTML = USERS.map((u,i) => `
+    <tr>
+      <td style="color:#fff; font-weight:600;">${u.name}</td>
+      <td>${u.role}</td>
+      <td>${u.email}</td>
+      <td>${u.joined}</td>
+      <td><span class="badge ${statusColor[u.status]}">${u.status}</span></td>
+      <td style="text-align:right; white-space:nowrap;">
+        <button class="btn btn-ghost btn-sm suspend-btn" data-i="${i}">${u.status === 'Suspended' ? 'Reactivate' : 'Suspend'}</button>
+      </td>
+    </tr>`).join('');
+}
+render();
+
+document.getElementById('userBody').addEventListener('click', (e) => {
+  if (!e.target.classList.contains('suspend-btn')) return;
+  const i = Number(e.target.dataset.i);
+  USERS[i].status = USERS[i].status === 'Suspended' ? 'Active' : 'Suspended';
+  render();
+  toast(`${USERS[i].name} is now ${USERS[i].status}.`);
+});
+
+document.getElementById('inviteBtn').addEventListener('click', () => {
+  toast('Invite flow is demo-only — no backend endpoint yet.');
+});
 </script>
 </body>
 </html>

@@ -145,9 +145,11 @@
 /* ---------- table ---------- */
 .table-wrap{
   background: var(--bg-panel); border:1px solid var(--border-subtle);
-  border-radius: var(--r-lg); overflow:hidden;
+  border-radius: var(--r-lg);
+  overflow-x:auto; overflow-y:hidden;
+  -webkit-overflow-scrolling:touch;
 }
-table.data-table{ width:100%; border-collapse:collapse; }
+table.data-table{ width:100%; min-width:560px; border-collapse:collapse; }
 .data-table thead th{
   text-align:left; font-size:.7rem; text-transform:uppercase; letter-spacing:.08em;
   color: var(--text-low); padding:14px 18px; border-bottom:1px solid var(--border-subtle);
@@ -182,6 +184,11 @@ table.data-table{ width:100%; border-collapse:collapse; }
 .field-hint{ font-size:.72rem; color: var(--text-low); margin-top:5px; }
 .field-error{ font-size:.72rem; color: var(--action-500); margin-top:5px; display:none; }
 .field.has-error input{ border-color: var(--action-500); }
+
+/* Reusable two-up field row (e.g. price + duration). Collapses to a
+   single column on narrow phones instead of squeezing inputs. */
+.field-row{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+@media (max-width:480px){ .field-row{ grid-template-columns:1fr; } }
 .field.has-error .field-error{ display:block; }
 
 .auth-shell{

@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-Learning · Students</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/theme.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/components.css">
+</head>
+<body data-active="students" data-roles="TEACHER,ADMIN">
+<div class="app" id="app">
+  <main>
+    <div class="content">
+      <section class="page-head fade-up">
+        <div>
+          <span class="eyebrow">Teacher</span>
+          <h1>Học viên</h1>
+          <p>Students enrolled across the courses you teach.</p>
+        </div>
+      </section>
+
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Student</th><th>Course</th><th>Progress</th><th>Enrolled</th></tr></thead>
+          <tbody id="studentBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/shell.js"></script>
+<script>
+const SEED_STUDENTS = [
+  { name:'Alice K.', course:'UX/UI Design Foundations', progress:72, enrolled:'02 Jun 2026' },
+  { name:'Priya R.', course:'Intro to Game Theory', progress:34, enrolled:'11 Jun 2026' },
+  { name:'Tom H.', course:'Business Development Fundamentals', progress:100, enrolled:'20 May 2026' },
+  { name:'Marco D.', course:'UX/UI Design Foundations', progress:12, enrolled:'19 Jul 2026' },
+];
+document.getElementById('studentBody').innerHTML = SEED_STUDENTS.map(s => `
+  <tr>
+    <td style="color:#fff;font-weight:600;">${s.name}</td>
+    <td>${s.course}</td>
+    <td style="min-width:140px;">
+      <div class="progress-track" style="height:6px;border-radius:999px;background:var(--bg-chip);overflow:hidden;">
+        <div style="height:100%;width:${s.progress}%;background:linear-gradient(90deg, var(--action-500), var(--brand-300));"></div>
+      </div>
+    </td>
+    <td>${s.enrolled}</td>
+  </tr>`).join('');
+</script>
+</body>
+</html>

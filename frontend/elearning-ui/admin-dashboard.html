@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-Learning · Admin Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/theme.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/components.css">
+</head>
+<body data-active="admin-dashboard" data-roles="ADMIN">
+<div class="app" id="app">
+  <main>
+    <div class="content">
+
+      <section class="page-head fade-up">
+        <div>
+          <span class="eyebrow">Administration</span>
+          <h1>System overview</h1>
+          <p>Full control over users, courses, schedules and platform content.</p>
+        </div>
+      </section>
+
+      <section class="section fade-up" style="margin-top:0;">
+        <div class="kpi-row">
+          <div class="kpi"><div class="value">1,284</div><div class="label">Active students</div><div class="delta up">▲ 8.4%</div></div>
+          <div class="kpi"><div class="value">67</div><div class="label">Live courses</div><div class="delta up">▲ 5</div></div>
+          <div class="kpi"><div class="value">142</div><div class="label">Instructors</div><div class="delta up">▲ 3</div></div>
+          <div class="kpi"><div class="value">4.6</div><div class="label">Avg. course rating</div><div class="delta down">▼ 0.1</div></div>
+        </div>
+      </section>
+
+      <section class="section" style="margin-top:0;">
+        <div class="grid-cards" style="grid-template-columns:repeat(auto-fit,minmax(220px,1fr));">
+          <a class="category-card" href="admin-users.html">
+            <h3>Quản lý người dùng</h3>
+            <p style="font-size:.85rem; margin:0;">Create, edit, suspend Students, Teachers and Admins.</p>
+          </a>
+          <a class="category-card" href="admin-courses.html">
+            <h3>Quản lý khóa học</h3>
+            <p style="font-size:.85rem; margin:0;">Full CRUD over every course on the platform.</p>
+          </a>
+          <a class="category-card" href="schedule.html">
+            <h3>Quản lý lịch học</h3>
+            <p style="font-size:.85rem; margin:0;">Oversee the teaching/learning schedule.</p>
+          </a>
+          <a class="category-card" href="materials.html">
+            <h3>Quản lý giáo trình</h3>
+            <p style="font-size:.85rem; margin:0;">Review materials uploaded by instructors.</p>
+          </a>
+          <a class="category-card" href="admin-analytics.html">
+            <h3>Báo cáo</h3>
+            <p style="font-size:.85rem; margin:0;">Platform-wide analytics and growth reports.</p>
+          </a>
+        </div>
+      </section>
+
+    </div>
+  </main>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/shell.js"></script>
+</body>
+</html>

@@ -1,8 +1,8 @@
-package com.cms.service;
+package com.example.service;
 
-import com.cms.dto.response.GradeReportResponse;
-import com.cms.model.Grade;
-import com.cms.repository.GradeRepository;
+import com.example.dto.response.GradeReportResponse;
+import com.example.model.Grade;
+import com.example.repository.GradeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -37,6 +37,15 @@
           <input type="password" id="password" name="password" autocomplete="current-password" required>
           <div class="field-error">Enter your username and password to continue.</div>
         </div>
+        <div class="field">
+          <label for="loginRole">Continue as</label>
+          <select id="loginRole" name="loginRole" required>
+            <option value="STUDENT">Student</option>
+            <option value="TEACHER">Teacher</option>
+            <option value="ADMIN">Admin</option>
+          </select>
+          <div class="field-hint">The API doesn't return a role on login yet, so pick the account type you're signing in as. Demo accounts: student/123, instructor/123, admin/123.</div>
+        </div>
         <button type="submit" class="btn btn-primary btn-block">Log in</button>
         <a href="index.html" class="btn btn-ghost btn-block" style="margin-top:10px;">Continue as guest</a>
       </form>
@@ -46,23 +55,31 @@
 
 <script src="js/api.js"></script>
 <script>
+document.addEventListener('DOMContentLoaded', () => {
+  const params = new URLSearchParams(window.location.search);
+  const role = params.get('role');
+  if (role) document.getElementById('loginRole').value = role;
+});
+
 document.getElementById('loginForm').addEventListener('submit', async (e) => {
   e.preventDefault();
   const username = document.getElementById('username').value.trim();
   const password = document.getElementById('password').value;
+  const chosenRole = document.getElementById('loginRole').value;
   const field = document.getElementById('password').closest('.field');
   if (!username || !password){ field.classList.add('has-error'); return; }
   field.classList.remove('has-error');
 
+  let res = null;
   try{
-    const res = await AuthAPI.login(username, password);
-    Auth.setSession(res.token || res.accessToken || 'demo-token', { username, fullName: username });
-    window.location.href = 'index.html';
+    res = await AuthAPI.login(username, password);
   }catch(err){
     // demo fallback: let any credentials in so the UI is explorable offline
-    Auth.setSession('demo-token', { username, fullName: username });
-    window.location.href = 'index.html';
+    res = { accessToken: 'demo-token' };
   }
+  const user = Auth.setSession(res.token || res.accessToken || 'demo-token', { username, fullName: username }, res, chosenRole);
+  const next = new URLSearchParams(window.location.search).get('next');
+  window.location.href = next || Auth.homeFor(user.role);
 });
 </script>
 </body>

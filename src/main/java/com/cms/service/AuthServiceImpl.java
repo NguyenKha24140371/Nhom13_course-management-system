@@ -2,6 +2,7 @@ package com.cms.service;
 
 import com.cms.dto.request.LoginRequest;
 import com.cms.dto.request.RegisterRequest;
+import com.cms.dto.response.JwtAuthResponse;
 import com.cms.model.Role;
 import com.cms.model.User;
 import com.cms.repository.UserRepository;
@@ -13,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class AuthServiceImpl implements AuthService {
@@ -31,12 +33,30 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public String login(LoginRequest loginRequest) {
+    public JwtAuthResponse login(LoginRequest loginRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
         );
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        return jwtTokenUtil.generateToken(authentication);
+        String token = jwtTokenUtil.generateToken(authentication);
+
+        // Lấy lại User từ DB để trả full thông tin (id, email, fullName, roles) cho frontend
+        User user = userRepository.findByUsernameOrEmail(loginRequest.getUsername(), loginRequest.getUsername())
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy người dùng: " + loginRequest.getUsername()));
+
+        Set<String> roleNames = user.getRoles().stream()
+                .map(Role::name)
+                .collect(Collectors.toSet());
+
+        return JwtAuthResponse.builder()
+                .accessToken(token)
+                .tokenType("Bearer")
+                .id(user.getId())
+                .username(user.getUsername())
+                .email(user.getEmail())
+                .fullName(user.getFullName())
+                .roles(roleNames)
+                .build();
     }
 
     @Override

@@ -39,9 +39,7 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
-    public void setRole(String roleInstructor) {
-    }
-
-    // XÓA HÀM setFullName() RỖNG ĐI
-    // Lombok `@Setter` trên đầu class sẽ tự động tạo hàm setFullName(String fullName) chuẩn!
+    // Đã xóa hàm setRole(String) rỗng — hàm này không làm gì cả (bug),
+    // khiến DataInitializer seed roles nhưng không thực sự lưu vào DB.
+    // Dùng thẳng setRoles(Set<Role>) do Lombok @Setter sinh ra ở trên.
 }

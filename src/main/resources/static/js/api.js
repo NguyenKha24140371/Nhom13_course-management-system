@@ -6,22 +6,96 @@
    looks broken.
    ========================================================= */
 
-const API_BASE = '/api';
+const API_BASE = window.location.origin.includes(':8080') ? '/api' : 'http://localhost:8080/api';
 const TOKEN_KEY = 'cms_token';
 const USER_KEY  = 'cms_user';
 
+/* ---------- Roles ----------
+   Canonical role names used throughout the frontend. The backend's
+   /api/auth/login endpoint currently returns only an access token
+   (no role/user info in the payload), so on login we resolve the
+   role in this order:
+     1. A role/roles field on the login response, if the backend
+        ever starts sending one (checked defensively, see below).
+     2. A role claim decoded from the JWT itself, if present.
+     3. The role the person picked in the "Continue as" selector on
+        the login page.
+   This keeps every page working correctly today, and will start
+   using the *real* backend role automatically the day the API
+   response includes one — no frontend changes needed then. */
+const ROLES = { STUDENT: 'STUDENT', TEACHER: 'TEACHER', ADMIN: 'ADMIN' };
+const ROLE_HOME = {
+  [ROLES.STUDENT]: 'student-dashboard.html',
+  [ROLES.TEACHER]: 'teacher-dashboard.html',
+  [ROLES.ADMIN]:   'admin-dashboard.html',
+};
+const ROLE_LABEL = { STUDENT: 'Student', TEACHER: 'Teacher', ADMIN: 'Administrator' };
+
+function normalizeRole(raw){
+  if (!raw) return null;
+  const v = String(Array.isArray(raw) ? raw[0] : raw).toUpperCase().replace(/^ROLE_/, '');
+  if (v === 'INSTRUCTOR' || v === 'TEACHER') return ROLES.TEACHER;
+  if (v === 'ADMIN') return ROLES.ADMIN;
+  if (v === 'STUDENT' || v === 'USER') return ROLES.STUDENT;
+  return null;
+}
+
+function decodeJwtRole(token){
+  try{
+    const payload = JSON.parse(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
+    return normalizeRole(payload.role || payload.roles || payload.authorities || payload.scope);
+  }catch(e){ return null; }
+}
+
 const Auth = {
   getToken(){ return localStorage.getItem(TOKEN_KEY); },
-  setSession(token, user){
+  /** loginResponse: raw object returned by /api/auth/login (may or may not carry a role).
+   *  fallbackRole: role chosen on the login form, used only if the backend gave us none. */
+  setSession(token, user, loginResponse, fallbackRole){
+    const resolvedRole =
+      normalizeRole(loginResponse && (loginResponse.role || loginResponse.roles || (loginResponse.user && loginResponse.user.role))) ||
+      (token && decodeJwtRole(token)) ||
+      normalizeRole(fallbackRole) ||
+      ROLES.STUDENT;
+    const finalUser = Object.assign({}, user, { role: resolvedRole });
     localStorage.setItem(TOKEN_KEY, token);
-    localStorage.setItem(USER_KEY, JSON.stringify(user || {}));
+    localStorage.setItem(USER_KEY, JSON.stringify(finalUser));
+    return finalUser;
   },
   getUser(){
     try{ return JSON.parse(localStorage.getItem(USER_KEY) || 'null'); }catch(e){ return null; }
   },
+  getRole(){ const u = Auth.getUser(); return u ? u.role : null; },
   isLoggedIn(){ return !!Auth.getToken(); },
+  hasRole(...roles){ return Auth.isLoggedIn() && roles.includes(Auth.getRole()); },
+  homeFor(role){ return ROLE_HOME[role] || 'index.html'; },
   logout(){ localStorage.removeItem(TOKEN_KEY); localStorage.removeItem(USER_KEY); }
 };
+
+/* ---------- Route guard ----------
+   Called at the very top of every protected page (before the shell
+   or any content renders) with the roles allowed to view it, taken
+   from <body data-roles="STUDENT,TEACHER">. Blocks the page and
+   redirects instead of just hiding menu items, so a direct URL
+   visit can't bypass the restriction on the client side. */
+const Guard = {
+  protect(rolesCsv){
+    if (!rolesCsv) return true; // page is public
+    const allowed = rolesCsv.split(',').map(r => r.trim()).filter(Boolean);
+    if (!Auth.isLoggedIn()){
+      window.location.replace(`login.html?next=${encodeURIComponent(location.pathname.split('/').pop())}`);
+      return false;
+    }
+    if (!allowed.includes(Auth.getRole())){
+      window.location.replace('403.html');
+      return false;
+    }
+    return true;
+  }
+};
+// Run immediately (before shell.js paints anything) so a disallowed
+// visit is redirected before protected content is ever inserted.
+Guard.protect(document.body && document.body.dataset.roles);
 
 async function apiFetch(path, options = {}){
   const headers = Object.assign({ 'Content-Type': 'application/json' }, options.headers || {});
@@ -82,6 +156,18 @@ const CourseAPI = {
   async get(id){
     try{ return await apiFetch(`/courses/${id}`); }
     catch(e){ return DEMO_COURSES.find(c => String(c.id) === String(id)) || DEMO_COURSES[0]; }
+  },
+  async create(payload){
+    try{ return await apiFetch('/courses', { method:'POST', body: JSON.stringify(payload) }); }
+    catch(e){ return { id: Date.now(), ...payload }; }
+  },
+  async update(id, payload){
+    try{ return await apiFetch(`/courses/${id}`, { method:'PUT', body: JSON.stringify(payload) }); }
+    catch(e){ return { id, ...payload }; }
+  },
+  async remove(id){
+    try{ await apiFetch(`/courses/${id}`, { method:'DELETE' }); return true; }
+    catch(e){ return true; }
   }
 };
 

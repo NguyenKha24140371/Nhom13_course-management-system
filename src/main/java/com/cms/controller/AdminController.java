@@ -1,7 +1,7 @@
-package com.cms.controller;
+package com.example.controller;
 
-import com.cms.model.Grade;
-import com.cms.service.GradeService;
+import com.example.model.Grade;
+import com.example.service.GradeService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

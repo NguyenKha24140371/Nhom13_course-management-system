@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-Learning · Schedule</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/theme.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/components.css">
+</head>
+<body data-active="schedule" data-roles="STUDENT,TEACHER,ADMIN">
+<div class="app" id="app">
+  <main>
+    <div class="content">
+      <section class="page-head fade-up">
+        <div>
+          <span class="eyebrow" id="eyebrow">Learning</span>
+          <h1 id="heading">Lịch học</h1>
+          <p id="subheading">Your upcoming live sessions and deadlines this week.</p>
+        </div>
+      </section>
+
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead><tr><th>Day</th><th>Time</th><th>Course</th><th>Type</th></tr></thead>
+          <tbody id="scheduleBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/shell.js"></script>
+<script>
+const role = Auth.getRole();
+const COPY = {
+  STUDENT: { eyebrow:'Learning', heading:'Lịch học', sub:"Your upcoming live sessions and deadlines this week." },
+  TEACHER: { eyebrow:'Teacher', heading:'Lịch dạy', sub:'Your upcoming teaching sessions this week.' },
+  ADMIN:   { eyebrow:'Administration', heading:'Quản lý lịch học', sub:'The full platform teaching schedule.' },
+};
+const c = COPY[role] || COPY.STUDENT;
+document.getElementById('eyebrow').textContent = c.eyebrow;
+document.getElementById('heading').textContent = c.heading;
+document.getElementById('subheading').textContent = c.sub;
+
+const SEED_SCHEDULE = [
+  { day:'Monday',    time:'18:00 – 19:30', course:'UX/UI Design Foundations', type:'Live session' },
+  { day:'Tuesday',   time:'20:00 – 21:00', course:'Intro to Game Theory', type:'Office hours' },
+  { day:'Thursday',  time:'19:00 – 20:30', course:'Business Development Fundamentals', type:'Live session' },
+  { day:'Saturday',  time:'10:00 – 11:00', course:'Floristics: Design & Arrangement', type:'Assignment due' },
+];
+document.getElementById('scheduleBody').innerHTML = SEED_SCHEDULE.map(s => `
+  <tr>
+    <td style="color:#fff;font-weight:600;">${s.day}</td>
+    <td>${s.time}</td>
+    <td>${s.course}</td>
+    <td><span class="badge badge-new">${s.type}</span></td>
+  </tr>`).join('');
+</script>
+</body>
+</html>

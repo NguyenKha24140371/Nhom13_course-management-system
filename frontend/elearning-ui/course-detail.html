@@ -74,7 +74,7 @@ async function init(){
       <aside class="panel">
         <div class="course-card__price" style="font-size:1.6rem; margin-bottom:4px;">${money(course.price)}</div>
         <p style="font-size:.78rem; margin-bottom:16px;">One-time payment · lifetime access</p>
-        <button class="btn btn-primary btn-block" id="enrollBtn">Enroll now</button>
+        <div id="enrollSlot"></div>
         <a class="btn btn-ghost btn-block" style="margin-top:8px;" href="courses.html">Back to catalog</a>
         <div style="margin-top:20px; padding-top:16px; border-top:1px solid var(--border-subtle); font-size:.82rem; color:var(--text-mid);">
           <div style="display:flex; justify-content:space-between; padding:4px 0;"><span>Lessons</span><span style="color:#fff;">${lessons.length}</span></div>
@@ -85,19 +85,26 @@ async function init(){
     </div>
   `;
 
-  document.getElementById('enrollBtn').addEventListener('click', async () => {
-    if (!Auth.isLoggedIn()){
-      toast('Please log in to enroll.', 'error');
-      setTimeout(() => window.location.href = 'login.html', 900);
-      return;
-    }
-    try{
-      await EnrollmentAPI.enroll(course.id, Auth.getUser()?.id);
-      toast('Enrolled! Find it under My Courses.');
-    }catch(e){
-      toast('Enrolled (demo mode).');
-    }
-  });
+  const role = Auth.isLoggedIn() ? Auth.getRole() : null;
+  const slot = document.getElementById('enrollSlot');
+  if (!Auth.isLoggedIn() || role === 'STUDENT'){
+    slot.innerHTML = `<button class="btn btn-primary btn-block" id="enrollBtn">Enroll now</button>`;
+    document.getElementById('enrollBtn').addEventListener('click', async () => {
+      if (!Auth.isLoggedIn()){
+        toast('Please log in to enroll.', 'error');
+        setTimeout(() => window.location.href = `login.html?next=course-detail.html?id=${course.id}`, 900);
+        return;
+      }
+      try{
+        await EnrollmentAPI.enroll(course.id, Auth.getUser()?.id);
+        toast('Enrolled! Find it under My Courses.');
+      }catch(e){
+        toast('Enrolled (demo mode).');
+      }
+    });
+  } else {
+    slot.innerHTML = `<p style="font-size:.8rem; color:var(--text-low);">Only students can enroll in courses.</p>`;
+  }
 }
 init();
 </script>

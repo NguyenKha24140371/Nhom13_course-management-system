@@ -3,31 +3,64 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>E-Learning · Learn something new</title>
+<title>E-Learning · Student Dashboard</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="css/theme.css">
 <link rel="stylesheet" href="css/layout.css">
 <link rel="stylesheet" href="css/components.css">
 </head>
-<body data-active="">
+<body data-active="student-dashboard" data-roles="STUDENT">
 <div class="app" id="app">
   <main>
     <div class="content">
 
       <section class="page-head fade-up">
         <div>
-          <span class="eyebrow">E-Learning</span>
-          <h1>Learn something new, on your schedule</h1>
-          <p>Courses taught by real practitioners — track your progress and earn certificates as you go.</p>
+          <span class="eyebrow">Welcome back</span>
+          <h1 id="welcomeHeading">Pick up where you left off</h1>
+          <p>You're 3 lessons away from finishing <strong style="color:#fff">UX/UI Design Foundations</strong>.</p>
         </div>
         <div style="display:flex; gap:10px;">
           <a href="courses.html" class="btn btn-ghost">Browse catalog</a>
-          <a href="register.html" class="btn btn-primary">Get started</a>
+          <a href="my-courses.html" class="btn btn-primary">My courses</a>
         </div>
       </section>
 
-      <section class="section" id="promotedSection" style="margin-top:0;">
+      <section class="section fade-up" style="margin-top:0;">
+        <div class="kpi-row" style="grid-template-columns: 1.3fr repeat(3,1fr);">
+          <div class="stat-card">
+            <div class="label">Hours studied — last 6 months</div>
+            <div class="value" id="hoursValue">13</div>
+            <svg class="mini-chart" id="hoursChart" viewBox="0 0 300 110" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="chartFade" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#e63955" stop-opacity="0.5"/>
+                  <stop offset="100%" stop-color="#e63955" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <g id="chartGroup"></g>
+            </svg>
+          </div>
+          <div class="kpi">
+            <div class="value">7</div>
+            <div class="label">Courses in progress</div>
+            <div class="delta up">▲ 2 this month</div>
+          </div>
+          <div class="kpi">
+            <div class="value">4</div>
+            <div class="label">Certificates earned</div>
+            <div class="delta up">▲ 1 this month</div>
+          </div>
+          <div class="kpi">
+            <div class="value">86%</div>
+            <div class="label">Avg. completion rate</div>
+            <div class="delta down">▼ 3% vs last term</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="promotedSection">
         <div class="section__head">
           <h2>Promoted courses</h2>
           <a href="courses.html">View all →</a>
@@ -52,15 +85,30 @@
 </div>
 
 <script src="js/api.js"></script>
-<script>
-// Signed-in users always land on their own dashboard, never the
-// shared/guest page — index.html is purely the public entry point.
-if (Auth.isLoggedIn()){
-  window.location.replace(Auth.homeFor(Auth.getRole()));
-}
-</script>
 <script src="js/shell.js"></script>
 <script>
+document.getElementById('welcomeHeading').textContent = `Welcome back, ${(Auth.getUser()||{}).fullName || 'learner'}`;
+
+function renderMiniChart(values){
+  const svg = document.getElementById('chartGroup');
+  const w = 300, h = 110, pad = 8;
+  const max = Math.max(...values), min = Math.min(...values);
+  const stepX = (w - pad*2) / (values.length - 1);
+  const pts = values.map((v,i) => {
+    const x = pad + i*stepX;
+    const y = h - pad - ((v - min) / (max - min || 1)) * (h - pad*2);
+    return [x,y];
+  });
+  const line = pts.map((p,i) => (i===0?'M':'L') + p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' ');
+  const area = line + ` L${pts[pts.length-1][0]},${h} L${pts[0][0]},${h} Z`;
+  svg.innerHTML = `
+    <path class="area" d="${area}"></path>
+    <path class="line" d="${line}"></path>
+    ${pts.map(p => `<circle class="dot" cx="${p[0]}" cy="${p[1]}" r="3"></circle>`).join('')}
+  `;
+}
+renderMiniChart([6,9,4,11,8,13]);
+
 function courseCardHTML(c){
   const badge = c.badge === 'new' ? '<span class="badge badge-new">New</span>'
     : c.badge === 'hot' ? '<span class="badge badge-hot">Top rated</span>'
