@@ -20,6 +20,5 @@ public class CourseUpdateRequest {
     @Min(1)
     private Integer duration;
 
-    @NotNull
     private Long instructorId;
 }

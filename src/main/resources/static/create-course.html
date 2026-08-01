@@ -84,18 +84,24 @@ const editId = new URLSearchParams(window.location.search).get('id');
 
 document.getElementById('courseForm').addEventListener('submit', async (e) => {
   e.preventDefault();
+  const user = Auth.getUser();
   const payload = {
     title: document.getElementById('title').value.trim(),
     description: document.getElementById('description').value.trim(),
     price: Number(document.getElementById('price').value),
     duration: Number(document.getElementById('duration').value),
+    instructorId: user ? user.id : null,
   };
+  const btn = document.getElementById('submitBtn');
+  btn.disabled = true;
   try{
     if (editId) await CourseAPI.update(editId, payload);
     else await CourseAPI.create(payload);
     toast(editId ? 'Đã cập nhật khóa học.' : 'Đã xuất bản khóa học.');
   }catch(err){
-    toast('Đã lưu cục bộ (chế độ demo — chưa kết nối backend).');
+    toast('Lỗi: ' + (err.message || 'Không thể lưu khóa học.'), 'error');
+    btn.disabled = false;
+    return;
   }
   setTimeout(() => window.location.href = isAdmin ? 'admin-courses.html' : 'teacher-dashboard.html', 700);
 });

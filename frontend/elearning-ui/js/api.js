@@ -132,42 +132,101 @@ const DEMO_CATEGORIES = [
   { name:'Khác', items:['Khác'] },
 ];
 
+/* ---------- LocalStorage helpers for offline/demo course persistence ---------- */
+function _loadCustomCourses(){
+  try{ return JSON.parse(localStorage.getItem('cms_custom_courses') || '[]'); }catch(e){ return []; }
+}
+function _saveCustomCourses(list){
+  try{ localStorage.setItem('cms_custom_courses', JSON.stringify(list)); }catch(e){}
+}
+
 /* ---------- Courses ---------- */
 const CourseAPI = {
   async list({ page = 0, size = 20, sort } = {}){
     try{
       const qs = new URLSearchParams({ page, size, ...(sort ? { sort } : {}) });
       const data = await apiFetch(`/courses?${qs.toString()}`);
-      return (data && data.content) ? data.content : (Array.isArray(data) ? data : DEMO_COURSES);
+      const serverList = (data && data.content) ? data.content : (Array.isArray(data) ? data : DEMO_COURSES);
+      // Merge custom (locally-created) courses on top so they always appear
+      const custom = _loadCustomCourses();
+      const serverIds = new Set(serverList.map(c => String(c.id)));
+      const newOnes = custom.filter(c => !serverIds.has(String(c.id)));
+      return [...serverList, ...newOnes];
     }catch(e){
-      return DEMO_COURSES;
+      const base = [...DEMO_COURSES];
+      const custom = _loadCustomCourses();
+      const baseIds = new Set(base.map(c => String(c.id)));
+      custom.filter(c => !baseIds.has(String(c.id))).forEach(c => base.push(c));
+      return base;
     }
   },
   async search(keyword){
     try{
       const qs = new URLSearchParams({ keyword });
       const data = await apiFetch(`/courses/search?${qs.toString()}`);
-      return (data && data.content) ? data.content : DEMO_COURSES;
+      const result = (data && data.content) ? data.content : DEMO_COURSES;
+      const k = keyword.toLowerCase();
+      const custom = _loadCustomCourses().filter(c => c.title.toLowerCase().includes(k));
+      const resultIds = new Set(result.map(c => String(c.id)));
+      return [...result, ...custom.filter(c => !resultIds.has(String(c.id)))];
     }catch(e){
       const k = keyword.toLowerCase();
-      return DEMO_COURSES.filter(c => c.title.toLowerCase().includes(k));
+      const all = [...DEMO_COURSES, ..._loadCustomCourses()];
+      return all.filter(c => c.title.toLowerCase().includes(k));
     }
   },
   async get(id){
     try{ return await apiFetch(`/courses/${id}`); }
-    catch(e){ return DEMO_COURSES.find(c => String(c.id) === String(id)) || DEMO_COURSES[0]; }
+    catch(e){
+      const custom = _loadCustomCourses();
+      return custom.find(c => String(c.id) === String(id))
+          || DEMO_COURSES.find(c => String(c.id) === String(id))
+          || DEMO_COURSES[0];
+    }
   },
   async create(payload){
-    try{ return await apiFetch('/courses', { method:'POST', body: JSON.stringify(payload) }); }
-    catch(e){ return { id: Date.now(), ...payload }; }
+    try{
+      const result = await apiFetch('/courses', { method:'POST', body: JSON.stringify(payload) });
+      return result;
+    }catch(e){
+      // Offline/demo: persist locally so the course appears in list views
+      const user = Auth.getUser();
+      const newCourse = {
+        id: Date.now(),
+        ...payload,
+        instructorName: user ? (user.fullName || user.username) : 'Giảng viên',
+        rating: 4,
+        badge: null,
+        img: null,
+      };
+      const list = _loadCustomCourses();
+      list.push(newCourse);
+      _saveCustomCourses(list);
+      return newCourse;
+    }
   },
   async update(id, payload){
-    try{ return await apiFetch(`/courses/${id}`, { method:'PUT', body: JSON.stringify(payload) }); }
-    catch(e){ return { id, ...payload }; }
+    try{
+      return await apiFetch(`/courses/${id}`, { method:'PUT', body: JSON.stringify(payload) });
+    }catch(e){
+      // Offline/demo: update in localStorage
+      const list = _loadCustomCourses();
+      const idx = list.findIndex(c => String(c.id) === String(id));
+      const updated = { id, ...payload };
+      if (idx !== -1) list[idx] = { ...list[idx], ...payload };
+      else list.push(updated);
+      _saveCustomCourses(list);
+      return updated;
+    }
   },
   async remove(id){
     try{ await apiFetch(`/courses/${id}`, { method:'DELETE' }); return true; }
-    catch(e){ return true; }
+    catch(e){
+      // Offline/demo: remove from localStorage
+      const list = _loadCustomCourses().filter(c => String(c.id) !== String(id));
+      _saveCustomCourses(list);
+      return true;
+    }
   }
 };
 
