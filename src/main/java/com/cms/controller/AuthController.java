@@ -9,7 +9,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.security.SecurityRequirements;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Authentication", description = "API Đăng ký và Đăng nhập người dùng")
 @RestController
 @RequestMapping("/api/auth")
-@SecurityRequirement(name = "")  // Swagger UI không yêu cầu token cho nhóm API này
 public class AuthController {
 
     private final AuthService authService;
@@ -37,6 +36,7 @@ public class AuthController {
         @ApiResponse(responseCode = "401", description = "Sai username hoặc password", content = @Content),
         @ApiResponse(responseCode = "400", description = "Dữ liệu đầu vào không hợp lệ", content = @Content)
     })
+    @SecurityRequirements   // Không cần token — endpoint public
     @PostMapping("/login")
     public ResponseEntity<JwtAuthResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
         JwtAuthResponse response = authService.login(loginRequest);
@@ -51,6 +51,7 @@ public class AuthController {
         @ApiResponse(responseCode = "200", description = "Đăng ký thành công"),
         @ApiResponse(responseCode = "400", description = "Username hoặc Email đã tồn tại", content = @Content)
     })
+    @SecurityRequirements   // Không cần token — endpoint public
     @PostMapping("/register")
     public ResponseEntity<String> register(@Valid @RequestBody RegisterRequest registerRequest) {
         String response = authService.register(registerRequest);
