@@ -74,9 +74,16 @@ public class AuthServiceImpl implements AuthService {
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
 
         Set<Role> roles = new HashSet<>();
-        if (registerRequest.getRoles() != null) {
-            registerRequest.getRoles().forEach(role -> {
-                roles.add(Role.valueOf("ROLE_" + role.toUpperCase()));
+        if (registerRequest.getRoles() != null && !registerRequest.getRoles().isEmpty()) {
+            registerRequest.getRoles().forEach(roleStr -> {
+                String formattedRole = roleStr.toUpperCase().startsWith("ROLE_") 
+                        ? roleStr.toUpperCase() 
+                        : "ROLE_" + roleStr.toUpperCase();
+                try {
+                    roles.add(Role.valueOf(formattedRole));
+                } catch (IllegalArgumentException e) {
+                    throw new RuntimeException("Role không hợp lệ: " + roleStr);
+                }
             });
         } else {
             roles.add(Role.ROLE_STUDENT); // Mặc định là Student

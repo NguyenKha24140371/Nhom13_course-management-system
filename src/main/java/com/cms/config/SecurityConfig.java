@@ -54,7 +54,8 @@ public class SecurityConfig {
                                 "/js/**",
                                 "/images/**",
                                 "/static/**",
-                                "/favicon.ico"
+                                "/favicon.ico",
+                                "/error"
                         ).permitAll()
 
                         // 2. Mở quyền Đăng nhập / Đăng ký
